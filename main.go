@@ -28,7 +28,6 @@ func main() {
 
 	// init service
 	srv.Init()
-
 	if err := srv.Run(); err != nil {
 		panic(err)
 	}
