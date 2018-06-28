@@ -23,17 +23,17 @@ enum Pirority {
     MUST_HAVE = 3;
 }
 
-
-
 message Idea {
-    // @inject_tag: bson:"_id" valid:"uuidv4~Idea ID must be a valid UUIDv4" conform:"trim"
+    // @inject_tag: bson:"_id" valid:"uuidv4~ID must be a valid UUIDv4" conform:"trim"
     string ID = 1;
-    // @inject_tag: bson:"name" valid:"required~Idea name is required" conform:"trim"
+    // @inject_tag: bson:"name" valid:"required~Name is required" conform:"trim"
     string name = 2;
-    string description
-    // @inject_tag: bson:"slug" valid:"required~Idea slug is required" conform:"trim,slug"
+    // @inject_tag: bson:"slug" valid:"required~Slug is required" conform:"trim"
     string slug = 3;
     // @inject_tag: bson:"hidden"
+    string description
+    // @inject_tag: bson:"slug" valid:"required~Idea slug is required" conform:"trim,slug"
+
     bool hidden = 6;
     repeated AppType type = 7;
     uint32 min_age
@@ -47,10 +47,24 @@ message Idea {
 }
 
 message Story {
-    // @inject_tag: bson:"_id" valid:"uuidv4~Story ID must be a valid UUIDv4" conform:"trim"
+    // @inject_tag: bson:"_id" valid:"uuidv4~ID must be a valid UUIDv4" conform:"trim"
     string ID = 1;
-    // @inject_tag: bson:"title" valid:"required~Story title is required" conform:"trim"
+    // @inject_tag: bson:"title" valid:"required~Title is required" conform:"trim"
     string title = 2;
+    // @inject_tag: bson:"pirority" valid:"required~Pirority is required"
+    Pirority pirority = 3;
+    // @inject_tag: bson:"role" valid:"required~Who is required" conform:"trim"
+    string who = 4;
+    // @inject_tag: bson:"action" valid:"required~What is required" conform:"trim"
+    string what = 5;
+    // @inject_tag: bson:"goal" valid:"required~Goal is required" conform:"trim"
+    string goal = 6;
+    // @inject_tag: bson:"order"
+    uint64 order = 7;
+    // @inject_tag: bson:"created_at"
+    google.protobuf.Timestamp created_at  = 8;
+    // @inject_tag: bson:"updated_at"
+    google.protobuf.Timestamp updated_at = 9;
 }
 
 message Occupation {
