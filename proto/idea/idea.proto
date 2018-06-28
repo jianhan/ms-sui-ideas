@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package go.micro.srv.idea;
+option go_package="idea";
+import "google/protobuf/timestamp.proto";
+
+service IdeaService {
+    rpc UpsertCategories (UpsertCategoriesReq) returns (UpsertCategoriesRsp);
+    rpc Categories (CategoriesReq) returns (CategoriesRsp);
+}
+
+enum AppType {
+    WEB = 0;
+    MOBILE = 1;
+    DESKTOP = 2;
+    OTHER=3;
+}
+
+message Idea {
+    // @inject_tag: bson:"_id" valid:"uuidv4~Idea ID must be a valid UUIDv4" conform:"trim"
+    string ID = 1;
+    // @inject_tag: bson:"name" valid:"required~Idea name is required" conform:"trim"
+    string name = 2;
+    string description
+    // @inject_tag: bson:"slug" valid:"required~Idea slug is required" conform:"trim,slug"
+    string slug = 3;
+    // @inject_tag: bson:"hidden"
+    bool hidden = 6;
+    repeated AppType type = 7;
+    uint32 min_age
+    uint32 max_age
+
+    float rating = ;
+    // @inject_tag: bson:"created_at"
+    google.protobuf.Timestamp created_at  = 8;
+    // @inject_tag: bson:"updated_at"
+    google.protobuf.Timestamp updated_at = 9;
+}
+
+message Occupation {
+    // @inject_tag: bson:"_id" valid:"uuidv4~Occupation ID must be a valid UUIDv4" conform:"trim"
+    string ID = 1;
+    // @inject_tag: bson:"name" valid:"required~Occupation name is required" conform:"trim"
+    string name = 2;
+}
