@@ -42,34 +42,34 @@ var _ context.Context
 var _ client.Option
 var _ server.Option
 
-// Client API for Ratings service
+// Client API for RatingService service
 
-type RatingsClient interface {
+type RatingServiceClient interface {
 	NewRatings(ctx context.Context, in *Ratings, opts ...client.CallOption) (*Ratings, error)
 	UpdateRatings(ctx context.Context, in *Ratings, opts ...client.CallOption) (*Ratings, error)
 	DeleteRatings(ctx context.Context, in *DeleteRatingsRequest, opts ...client.CallOption) (*DeleteRatingsResponse, error)
 }
 
-type ratingsClient struct {
+type ratingServiceClient struct {
 	c           client.Client
 	serviceName string
 }
 
-func NewRatingsClient(serviceName string, c client.Client) RatingsClient {
+func NewRatingServiceClient(serviceName string, c client.Client) RatingServiceClient {
 	if c == nil {
 		c = client.NewClient()
 	}
 	if len(serviceName) == 0 {
 		serviceName = "go.micro.srv.ideas"
 	}
-	return &ratingsClient{
+	return &ratingServiceClient{
 		c:           c,
 		serviceName: serviceName,
 	}
 }
 
-func (c *ratingsClient) NewRatings(ctx context.Context, in *Ratings, opts ...client.CallOption) (*Ratings, error) {
-	req := c.c.NewRequest(c.serviceName, "Ratings.NewRatings", in)
+func (c *ratingServiceClient) NewRatings(ctx context.Context, in *Ratings, opts ...client.CallOption) (*Ratings, error) {
+	req := c.c.NewRequest(c.serviceName, "RatingService.NewRatings", in)
 	out := new(Ratings)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -78,8 +78,8 @@ func (c *ratingsClient) NewRatings(ctx context.Context, in *Ratings, opts ...cli
 	return out, nil
 }
 
-func (c *ratingsClient) UpdateRatings(ctx context.Context, in *Ratings, opts ...client.CallOption) (*Ratings, error) {
-	req := c.c.NewRequest(c.serviceName, "Ratings.UpdateRatings", in)
+func (c *ratingServiceClient) UpdateRatings(ctx context.Context, in *Ratings, opts ...client.CallOption) (*Ratings, error) {
+	req := c.c.NewRequest(c.serviceName, "RatingService.UpdateRatings", in)
 	out := new(Ratings)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -88,8 +88,8 @@ func (c *ratingsClient) UpdateRatings(ctx context.Context, in *Ratings, opts ...
 	return out, nil
 }
 
-func (c *ratingsClient) DeleteRatings(ctx context.Context, in *DeleteRatingsRequest, opts ...client.CallOption) (*DeleteRatingsResponse, error) {
-	req := c.c.NewRequest(c.serviceName, "Ratings.DeleteRatings", in)
+func (c *ratingServiceClient) DeleteRatings(ctx context.Context, in *DeleteRatingsRequest, opts ...client.CallOption) (*DeleteRatingsResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "RatingService.DeleteRatings", in)
 	out := new(DeleteRatingsResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -98,30 +98,30 @@ func (c *ratingsClient) DeleteRatings(ctx context.Context, in *DeleteRatingsRequ
 	return out, nil
 }
 
-// Server API for Ratings service
+// Server API for RatingService service
 
-type RatingsHandler interface {
+type RatingServiceHandler interface {
 	NewRatings(context.Context, *Ratings, *Ratings) error
 	UpdateRatings(context.Context, *Ratings, *Ratings) error
 	DeleteRatings(context.Context, *DeleteRatingsRequest, *DeleteRatingsResponse) error
 }
 
-func RegisterRatingsHandler(s server.Server, hdlr RatingsHandler, opts ...server.HandlerOption) {
-	s.Handle(s.NewHandler(&Ratings{hdlr}, opts...))
+func RegisterRatingServiceHandler(s server.Server, hdlr RatingServiceHandler, opts ...server.HandlerOption) {
+	s.Handle(s.NewHandler(&RatingService{hdlr}, opts...))
 }
 
-type Ratings struct {
-	RatingsHandler
+type RatingService struct {
+	RatingServiceHandler
 }
 
-func (h *Ratings) NewRatings(ctx context.Context, in *Ratings, out *Ratings) error {
-	return h.RatingsHandler.NewRatings(ctx, in, out)
+func (h *RatingService) NewRatings(ctx context.Context, in *Ratings, out *Ratings) error {
+	return h.RatingServiceHandler.NewRatings(ctx, in, out)
 }
 
-func (h *Ratings) UpdateRatings(ctx context.Context, in *Ratings, out *Ratings) error {
-	return h.RatingsHandler.UpdateRatings(ctx, in, out)
+func (h *RatingService) UpdateRatings(ctx context.Context, in *Ratings, out *Ratings) error {
+	return h.RatingServiceHandler.UpdateRatings(ctx, in, out)
 }
 
-func (h *Ratings) DeleteRatings(ctx context.Context, in *DeleteRatingsRequest, out *DeleteRatingsResponse) error {
-	return h.RatingsHandler.DeleteRatings(ctx, in, out)
+func (h *RatingService) DeleteRatings(ctx context.Context, in *DeleteRatingsRequest, out *DeleteRatingsResponse) error {
+	return h.RatingServiceHandler.DeleteRatings(ctx, in, out)
 }

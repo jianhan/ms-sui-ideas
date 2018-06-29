@@ -8,7 +8,7 @@ import "github.com/jianhan/ms-sui-ideas/proto/story/story.proto";
 import "github.com/jianhan/ms-sui-ideas/proto/occupation/occupation.proto";
 
 // Service declares all RPC calls for ideas related functions.
-service Ideas {
+service IdeaService {
     rpc NewIdeas(ideas) returns (ideas) {}
     rpc UpdateIdeas(ideas) returns (ideas) {}
     rpc DeleteIdeas(DeleteIdeasRequest) returns (DeleteIdeasResponse) {}

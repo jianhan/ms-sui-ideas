@@ -42,34 +42,34 @@ var _ context.Context
 var _ client.Option
 var _ server.Option
 
-// Client API for Stories service
+// Client API for StoryService service
 
-type StoriesClient interface {
+type StoryServiceClient interface {
 	NewStories(ctx context.Context, in *Stories, opts ...client.CallOption) (*Stories, error)
 	UpdateStories(ctx context.Context, in *Stories, opts ...client.CallOption) (*Stories, error)
 	DeleteStories(ctx context.Context, in *DeleteStoriesRequest, opts ...client.CallOption) (*DeleteStoriesResponse, error)
 }
 
-type storiesClient struct {
+type storyServiceClient struct {
 	c           client.Client
 	serviceName string
 }
 
-func NewStoriesClient(serviceName string, c client.Client) StoriesClient {
+func NewStoryServiceClient(serviceName string, c client.Client) StoryServiceClient {
 	if c == nil {
 		c = client.NewClient()
 	}
 	if len(serviceName) == 0 {
 		serviceName = "go.micro.srv.ideas"
 	}
-	return &storiesClient{
+	return &storyServiceClient{
 		c:           c,
 		serviceName: serviceName,
 	}
 }
 
-func (c *storiesClient) NewStories(ctx context.Context, in *Stories, opts ...client.CallOption) (*Stories, error) {
-	req := c.c.NewRequest(c.serviceName, "Stories.NewStories", in)
+func (c *storyServiceClient) NewStories(ctx context.Context, in *Stories, opts ...client.CallOption) (*Stories, error) {
+	req := c.c.NewRequest(c.serviceName, "StoryService.NewStories", in)
 	out := new(Stories)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -78,8 +78,8 @@ func (c *storiesClient) NewStories(ctx context.Context, in *Stories, opts ...cli
 	return out, nil
 }
 
-func (c *storiesClient) UpdateStories(ctx context.Context, in *Stories, opts ...client.CallOption) (*Stories, error) {
-	req := c.c.NewRequest(c.serviceName, "Stories.UpdateStories", in)
+func (c *storyServiceClient) UpdateStories(ctx context.Context, in *Stories, opts ...client.CallOption) (*Stories, error) {
+	req := c.c.NewRequest(c.serviceName, "StoryService.UpdateStories", in)
 	out := new(Stories)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -88,8 +88,8 @@ func (c *storiesClient) UpdateStories(ctx context.Context, in *Stories, opts ...
 	return out, nil
 }
 
-func (c *storiesClient) DeleteStories(ctx context.Context, in *DeleteStoriesRequest, opts ...client.CallOption) (*DeleteStoriesResponse, error) {
-	req := c.c.NewRequest(c.serviceName, "Stories.DeleteStories", in)
+func (c *storyServiceClient) DeleteStories(ctx context.Context, in *DeleteStoriesRequest, opts ...client.CallOption) (*DeleteStoriesResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "StoryService.DeleteStories", in)
 	out := new(DeleteStoriesResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -98,30 +98,30 @@ func (c *storiesClient) DeleteStories(ctx context.Context, in *DeleteStoriesRequ
 	return out, nil
 }
 
-// Server API for Stories service
+// Server API for StoryService service
 
-type StoriesHandler interface {
+type StoryServiceHandler interface {
 	NewStories(context.Context, *Stories, *Stories) error
 	UpdateStories(context.Context, *Stories, *Stories) error
 	DeleteStories(context.Context, *DeleteStoriesRequest, *DeleteStoriesResponse) error
 }
 
-func RegisterStoriesHandler(s server.Server, hdlr StoriesHandler, opts ...server.HandlerOption) {
-	s.Handle(s.NewHandler(&Stories{hdlr}, opts...))
+func RegisterStoryServiceHandler(s server.Server, hdlr StoryServiceHandler, opts ...server.HandlerOption) {
+	s.Handle(s.NewHandler(&StoryService{hdlr}, opts...))
 }
 
-type Stories struct {
-	StoriesHandler
+type StoryService struct {
+	StoryServiceHandler
 }
 
-func (h *Stories) NewStories(ctx context.Context, in *Stories, out *Stories) error {
-	return h.StoriesHandler.NewStories(ctx, in, out)
+func (h *StoryService) NewStories(ctx context.Context, in *Stories, out *Stories) error {
+	return h.StoryServiceHandler.NewStories(ctx, in, out)
 }
 
-func (h *Stories) UpdateStories(ctx context.Context, in *Stories, out *Stories) error {
-	return h.StoriesHandler.UpdateStories(ctx, in, out)
+func (h *StoryService) UpdateStories(ctx context.Context, in *Stories, out *Stories) error {
+	return h.StoryServiceHandler.UpdateStories(ctx, in, out)
 }
 
-func (h *Stories) DeleteStories(ctx context.Context, in *DeleteStoriesRequest, out *DeleteStoriesResponse) error {
-	return h.StoriesHandler.DeleteStories(ctx, in, out)
+func (h *StoryService) DeleteStories(ctx context.Context, in *DeleteStoriesRequest, out *DeleteStoriesResponse) error {
+	return h.StoryServiceHandler.DeleteStories(ctx, in, out)
 }

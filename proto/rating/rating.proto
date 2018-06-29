@@ -3,7 +3,7 @@ package go.micro.srv.ideas;
 option go_package="rating";
 import "google/protobuf/timestamp.proto";
 
-service Ratings {
+service RatingService {
     rpc NewRatings(ratings) returns (ratings) {}
     rpc UpdateRatings(ratings) returns (ratings) {}
     rpc DeleteRatings(DeleteRatingsRequest) returns (DeleteRatingsResponse) {}

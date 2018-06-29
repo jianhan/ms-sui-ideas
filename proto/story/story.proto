@@ -11,7 +11,7 @@ enum Pirority {
     MUST_HAVE = 3;
 }
 
-service Stories {
+service StoryService {
     rpc NewStories(stories) returns (stories) {}
     rpc UpdateStories(stories) returns (stories) {}
     rpc DeleteStories(DeleteStoriesRequest) returns (DeleteStoriesResponse) {}

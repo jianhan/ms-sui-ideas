@@ -46,35 +46,35 @@ var _ context.Context
 var _ client.Option
 var _ server.Option
 
-// Client API for Ideas service
+// Client API for IdeaService service
 
-type IdeasClient interface {
+type IdeaServiceClient interface {
 	NewIdeas(ctx context.Context, in *Ideas, opts ...client.CallOption) (*Ideas, error)
 	UpdateIdeas(ctx context.Context, in *Ideas, opts ...client.CallOption) (*Ideas, error)
 	DeleteIdeas(ctx context.Context, in *DeleteIdeasRequest, opts ...client.CallOption) (*DeleteIdeasResponse, error)
 	HideIdeas(ctx context.Context, in *HideIdeasRequest, opts ...client.CallOption) (*Ideas, error)
 }
 
-type ideasClient struct {
+type ideaServiceClient struct {
 	c           client.Client
 	serviceName string
 }
 
-func NewIdeasClient(serviceName string, c client.Client) IdeasClient {
+func NewIdeaServiceClient(serviceName string, c client.Client) IdeaServiceClient {
 	if c == nil {
 		c = client.NewClient()
 	}
 	if len(serviceName) == 0 {
 		serviceName = "go.micro.srv.ideas"
 	}
-	return &ideasClient{
+	return &ideaServiceClient{
 		c:           c,
 		serviceName: serviceName,
 	}
 }
 
-func (c *ideasClient) NewIdeas(ctx context.Context, in *Ideas, opts ...client.CallOption) (*Ideas, error) {
-	req := c.c.NewRequest(c.serviceName, "Ideas.NewIdeas", in)
+func (c *ideaServiceClient) NewIdeas(ctx context.Context, in *Ideas, opts ...client.CallOption) (*Ideas, error) {
+	req := c.c.NewRequest(c.serviceName, "IdeaService.NewIdeas", in)
 	out := new(Ideas)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -83,8 +83,8 @@ func (c *ideasClient) NewIdeas(ctx context.Context, in *Ideas, opts ...client.Ca
 	return out, nil
 }
 
-func (c *ideasClient) UpdateIdeas(ctx context.Context, in *Ideas, opts ...client.CallOption) (*Ideas, error) {
-	req := c.c.NewRequest(c.serviceName, "Ideas.UpdateIdeas", in)
+func (c *ideaServiceClient) UpdateIdeas(ctx context.Context, in *Ideas, opts ...client.CallOption) (*Ideas, error) {
+	req := c.c.NewRequest(c.serviceName, "IdeaService.UpdateIdeas", in)
 	out := new(Ideas)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -93,8 +93,8 @@ func (c *ideasClient) UpdateIdeas(ctx context.Context, in *Ideas, opts ...client
 	return out, nil
 }
 
-func (c *ideasClient) DeleteIdeas(ctx context.Context, in *DeleteIdeasRequest, opts ...client.CallOption) (*DeleteIdeasResponse, error) {
-	req := c.c.NewRequest(c.serviceName, "Ideas.DeleteIdeas", in)
+func (c *ideaServiceClient) DeleteIdeas(ctx context.Context, in *DeleteIdeasRequest, opts ...client.CallOption) (*DeleteIdeasResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "IdeaService.DeleteIdeas", in)
 	out := new(DeleteIdeasResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -103,8 +103,8 @@ func (c *ideasClient) DeleteIdeas(ctx context.Context, in *DeleteIdeasRequest, o
 	return out, nil
 }
 
-func (c *ideasClient) HideIdeas(ctx context.Context, in *HideIdeasRequest, opts ...client.CallOption) (*Ideas, error) {
-	req := c.c.NewRequest(c.serviceName, "Ideas.HideIdeas", in)
+func (c *ideaServiceClient) HideIdeas(ctx context.Context, in *HideIdeasRequest, opts ...client.CallOption) (*Ideas, error) {
+	req := c.c.NewRequest(c.serviceName, "IdeaService.HideIdeas", in)
 	out := new(Ideas)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -113,35 +113,35 @@ func (c *ideasClient) HideIdeas(ctx context.Context, in *HideIdeasRequest, opts 
 	return out, nil
 }
 
-// Server API for Ideas service
+// Server API for IdeaService service
 
-type IdeasHandler interface {
+type IdeaServiceHandler interface {
 	NewIdeas(context.Context, *Ideas, *Ideas) error
 	UpdateIdeas(context.Context, *Ideas, *Ideas) error
 	DeleteIdeas(context.Context, *DeleteIdeasRequest, *DeleteIdeasResponse) error
 	HideIdeas(context.Context, *HideIdeasRequest, *Ideas) error
 }
 
-func RegisterIdeasHandler(s server.Server, hdlr IdeasHandler, opts ...server.HandlerOption) {
-	s.Handle(s.NewHandler(&Ideas{hdlr}, opts...))
+func RegisterIdeaServiceHandler(s server.Server, hdlr IdeaServiceHandler, opts ...server.HandlerOption) {
+	s.Handle(s.NewHandler(&IdeaService{hdlr}, opts...))
 }
 
-type Ideas struct {
-	IdeasHandler
+type IdeaService struct {
+	IdeaServiceHandler
 }
 
-func (h *Ideas) NewIdeas(ctx context.Context, in *Ideas, out *Ideas) error {
-	return h.IdeasHandler.NewIdeas(ctx, in, out)
+func (h *IdeaService) NewIdeas(ctx context.Context, in *Ideas, out *Ideas) error {
+	return h.IdeaServiceHandler.NewIdeas(ctx, in, out)
 }
 
-func (h *Ideas) UpdateIdeas(ctx context.Context, in *Ideas, out *Ideas) error {
-	return h.IdeasHandler.UpdateIdeas(ctx, in, out)
+func (h *IdeaService) UpdateIdeas(ctx context.Context, in *Ideas, out *Ideas) error {
+	return h.IdeaServiceHandler.UpdateIdeas(ctx, in, out)
 }
 
-func (h *Ideas) DeleteIdeas(ctx context.Context, in *DeleteIdeasRequest, out *DeleteIdeasResponse) error {
-	return h.IdeasHandler.DeleteIdeas(ctx, in, out)
+func (h *IdeaService) DeleteIdeas(ctx context.Context, in *DeleteIdeasRequest, out *DeleteIdeasResponse) error {
+	return h.IdeaServiceHandler.DeleteIdeas(ctx, in, out)
 }
 
-func (h *Ideas) HideIdeas(ctx context.Context, in *HideIdeasRequest, out *Ideas) error {
-	return h.IdeasHandler.HideIdeas(ctx, in, out)
+func (h *IdeaService) HideIdeas(ctx context.Context, in *HideIdeasRequest, out *Ideas) error {
+	return h.IdeaServiceHandler.HideIdeas(ctx, in, out)
 }

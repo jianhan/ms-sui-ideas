@@ -3,7 +3,7 @@ package go.micro.srv.ideas;
 option go_package="occupation";
 import "google/protobuf/timestamp.proto";
 
-service Occupations {
+service OccupationService {
     rpc NewOccupations(occupations) returns (occupations) {}
     rpc UpdateOccupations(occupations) returns (occupations) {}
     rpc HideOccupations(HideOccupationsRequest) returns (HideOccupationsResponse) {}
