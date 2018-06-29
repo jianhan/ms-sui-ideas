@@ -5,7 +5,7 @@ import "google/protobuf/timestamp.proto";
 import "github.com/jianhan/ms-sui-ideas/proto/idea/idea.proto";
 
 message Story {
-    // @inject_tag: bson:"_id" valid:"uuidv4~ID must be a valid UUIDv4" conform:"trim"
+    // @inject_tag: bson:"_id" valid:"required~ID is required, uuidv4~ID must be a valid UUIDv4" conform:"trim"
     string ID = 1;
     // @inject_tag: bson:"title" valid:"required~Title is required" conform:"trim"
     string title = 2;
