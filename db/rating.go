@@ -5,7 +5,7 @@ import (
 )
 
 type Rating interface {
-	NewRatings(ratings []*rating.Rating) (*rating.Rating, error)
-	UpdateRatings(ratings []*rating.Rating) (*rating.Rating, error)
+	NewRatings(ratings []*rating.Rating) ([]*rating.Rating, error)
+	UpdateRatings(ratings []*rating.Rating) ([]*rating.Rating, error)
 	DeleteRatings(ids []string) error
 }
