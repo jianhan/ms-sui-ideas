@@ -2,7 +2,32 @@ syntax = "proto3";
 package go.micro.srv.ideas;
 option go_package="ideas";
 import "google/protobuf/timestamp.proto";
-import "github.com/jianhan/ms-sui-ideas/proto/idea/idea.proto";
+
+// Pirority defines a set of pirorities
+enum Pirority {
+    UNSET=0;
+    NICE_TO_HAVE = 1;
+    SHOULD_HAVE = 2;
+    MUST_HAVE = 3;
+}
+
+service Stories {
+    rpc NewStories(stories) returns (stories) {}
+    rpc UpdateStories(stories) returns (stories) {}
+    rpc DeleteStories(DeleteStoriesRequest) returns (DeleteStoriesResponse) {}
+}
+
+message DeleteStoriesRequest {
+    repeated string ids = 1;
+}
+
+message DeleteStoriesResponse {
+
+}
+
+message stories {
+    repeated Story stories = 1;
+}
 
 message Story {
     // @inject_tag: bson:"_id" valid:"required~ID is required, uuidv4~ID must be a valid UUIDv4" conform:"trim"
@@ -20,7 +45,7 @@ message Story {
     // @inject_tag: bson:"order"
     uint64 order = 7;
     // @inject_tag: bson:"created_at"
-    google.protobuf.Timestamp created_at  = 8;
+    google.protobuf.Timestamp created_at = 8;
     // @inject_tag: bson:"updated_at"
     google.protobuf.Timestamp updated_at = 9;
 }

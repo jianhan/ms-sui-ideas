@@ -30,13 +30,13 @@ const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
 type Occupation struct {
 	// @inject_tag: bson:"_id" valid:"required~ID is required, uuidv4~ID must be a valid UUIDv4" conform:"trim"
-	ID string `protobuf:"bytes,1,opt,name=ID" json:"ID,omitempty" bson:"_id" valid:"required~ID is required, uuidv4~ID must be a valid UUIDv4" conform:"trim"`
+	ID string `protobuf:"bytes,1,opt,name=ID" json:"ID,omitempty"`
 	// @inject_tag: bson:"name" valid:"required~Name is required" conform:"trim"
-	Name string `protobuf:"bytes,2,opt,name=name" json:"name,omitempty" bson:"name" valid:"required~Name is required" conform:"trim"`
+	Name string `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
 	// @inject_tag: bson:"created_at"
-	CreatedAt *google_protobuf.Timestamp `protobuf:"bytes,3,opt,name=created_at,json=createdAt" json:"created_at,omitempty" bson:"created_at"`
+	CreatedAt *google_protobuf.Timestamp `protobuf:"bytes,3,opt,name=created_at,json=createdAt" json:"created_at,omitempty"`
 	// @inject_tag: bson:"updated_at"
-	UpdatedAt *google_protobuf.Timestamp `protobuf:"bytes,4,opt,name=updated_at,json=updatedAt" json:"updated_at,omitempty" bson:"updated_at"`
+	UpdatedAt *google_protobuf.Timestamp `protobuf:"bytes,4,opt,name=updated_at,json=updatedAt" json:"updated_at,omitempty"`
 }
 
 func (m *Occupation) Reset()                    { *m = Occupation{} }

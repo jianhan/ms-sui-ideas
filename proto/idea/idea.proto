@@ -2,15 +2,32 @@ syntax = "proto3";
 package go.micro.srv.ideas;
 option go_package="ideas";
 import "google/protobuf/timestamp.proto";
-import "github.com/jianhan/ms-sui-ideas/proto/idea/idea.proto";
+import "github.com/jianhan/ms-sui-ideas/proto/rating/rating.proto";
+import "github.com/jianhan/ms-sui-ideas/proto/story/story.proto";
+import "github.com/jianhan/ms-sui-ideas/proto/occupation/occupation.proto";
 
 // Service declares all RPC calls for ideas related functions.
 service Ideas {
-    rpc NewIdeas(NewIdeasRequest) returns (NewIdeasResponse) {}
-    rpc DeleteIdeas(DeleteIdeaRequest) returns (DeleteIdeaResponse) {}
-    rpc HideIdeas(HideIdeasRequest) return (HideIdeasResponse) {}
-    rpc AddFeatures(AddFeaturesRequest) return (AddFeaturesResponse) {}
-    rpc DeleteFeatures(DeleteFeaturesRequest) return (DeleteFeaturesResponse) {}
+    rpc NewIdeas(ideas) returns (ideas) {}
+    rpc UpdateIdeas(ideas) returns (ideas) {}
+    rpc DeleteIdeas(DeleteIdeasRequest) returns (DeleteIdeasResponse) {}
+    rpc HideIdeas(HideIdeasRequest) returns (ideas) {}
+}
+
+message ideas {
+    repeated Idea ideas = 1;
+}
+
+message DeleteIdeasRequest {
+    repeated string ids = 1;
+}
+
+message DeleteIdeasResponse {
+
+}
+
+message HideIdeasRequest {
+    repeated string ids = 1;
 }
 
 // AppType defines application type
@@ -19,14 +36,6 @@ enum AppType {
     MOBILE = 1;
     DESKTOP = 2;
     OTHER=3;
-}
-
-// Pirority defines a set of pirorities
-enum Pirority {
-    UNSET=0;
-    NICE_TO_HAVE = 1;
-    SHOULD_HAVE = 2;
-    MUST_HAVE = 3;
 }
 
 message Idea {
@@ -48,17 +57,12 @@ message Idea {
     uint64 max_age = 8;
     // @inject_tag: bson:"rating"
     repeated Rating rating = 9;
-    // @inject_tag: bson:"features"
-    repeated Feature features = 10;
+    // @inject_tag: bson:"stories"
+    repeated Story stories = 10;
     // @inject_tag: bson:"occupations"
     repeated Occupation occupations = 11;
     // @inject_tag: bson:"created_at"
-    google.protobuf.Timestamp created_at  = 12;
+    google.protobuf.Timestamp created_at = 12;
     // @inject_tag: bson:"updated_at"
     google.protobuf.Timestamp updated_at = 13;
-}
-
-message Feature {
-    Story story = 1;
-    uint64 display_order = 2;
 }

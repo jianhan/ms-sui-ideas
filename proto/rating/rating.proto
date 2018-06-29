@@ -9,7 +9,7 @@ message Rating {
     // @inject_tag: bson:"user_id" valid:"required~User ID is required, uuidv4~User ID must be a valid UUIDv4" conform:"trim"
     string user_id = 2;
     // @inject_tag: bson:"created_at"
-    google.protobuf.Timestamp created_at  = 3;
+    google.protobuf.Timestamp created_at = 3;
     // @inject_tag: bson:"updated_at"
     google.protobuf.Timestamp updated_at = 4;
 }

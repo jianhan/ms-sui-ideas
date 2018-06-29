@@ -8,6 +8,10 @@ It is generated from these files:
 	proto/idea/idea.proto
 
 It has these top-level messages:
+	Ideas
+	DeleteIdeasRequest
+	DeleteIdeasResponse
+	HideIdeasRequest
 	Idea
 */
 package ideas
@@ -16,6 +20,15 @@ import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
 import _ "github.com/golang/protobuf/ptypes/timestamp"
+import _ "github.com/jianhan/ms-sui-ideas/proto/rating"
+import _ "github.com/jianhan/ms-sui-ideas/proto/story"
+import _ "github.com/jianhan/ms-sui-ideas/proto/occupation"
+
+import (
+	client "github.com/micro/go-micro/client"
+	server "github.com/micro/go-micro/server"
+	context "context"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -27,3 +40,108 @@ var _ = math.Inf
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ client.Option
+var _ server.Option
+
+// Client API for Ideas service
+
+type IdeasClient interface {
+	NewIdeas(ctx context.Context, in *Ideas, opts ...client.CallOption) (*Ideas, error)
+	UpdateIdeas(ctx context.Context, in *Ideas, opts ...client.CallOption) (*Ideas, error)
+	DeleteIdeas(ctx context.Context, in *DeleteIdeasRequest, opts ...client.CallOption) (*DeleteIdeasResponse, error)
+	HideIdeas(ctx context.Context, in *HideIdeasRequest, opts ...client.CallOption) (*Ideas, error)
+}
+
+type ideasClient struct {
+	c           client.Client
+	serviceName string
+}
+
+func NewIdeasClient(serviceName string, c client.Client) IdeasClient {
+	if c == nil {
+		c = client.NewClient()
+	}
+	if len(serviceName) == 0 {
+		serviceName = "go.micro.srv.ideas"
+	}
+	return &ideasClient{
+		c:           c,
+		serviceName: serviceName,
+	}
+}
+
+func (c *ideasClient) NewIdeas(ctx context.Context, in *Ideas, opts ...client.CallOption) (*Ideas, error) {
+	req := c.c.NewRequest(c.serviceName, "Ideas.NewIdeas", in)
+	out := new(Ideas)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *ideasClient) UpdateIdeas(ctx context.Context, in *Ideas, opts ...client.CallOption) (*Ideas, error) {
+	req := c.c.NewRequest(c.serviceName, "Ideas.UpdateIdeas", in)
+	out := new(Ideas)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *ideasClient) DeleteIdeas(ctx context.Context, in *DeleteIdeasRequest, opts ...client.CallOption) (*DeleteIdeasResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "Ideas.DeleteIdeas", in)
+	out := new(DeleteIdeasResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *ideasClient) HideIdeas(ctx context.Context, in *HideIdeasRequest, opts ...client.CallOption) (*Ideas, error) {
+	req := c.c.NewRequest(c.serviceName, "Ideas.HideIdeas", in)
+	out := new(Ideas)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for Ideas service
+
+type IdeasHandler interface {
+	NewIdeas(context.Context, *Ideas, *Ideas) error
+	UpdateIdeas(context.Context, *Ideas, *Ideas) error
+	DeleteIdeas(context.Context, *DeleteIdeasRequest, *DeleteIdeasResponse) error
+	HideIdeas(context.Context, *HideIdeasRequest, *Ideas) error
+}
+
+func RegisterIdeasHandler(s server.Server, hdlr IdeasHandler, opts ...server.HandlerOption) {
+	s.Handle(s.NewHandler(&Ideas{hdlr}, opts...))
+}
+
+type Ideas struct {
+	IdeasHandler
+}
+
+func (h *Ideas) NewIdeas(ctx context.Context, in *Ideas, out *Ideas) error {
+	return h.IdeasHandler.NewIdeas(ctx, in, out)
+}
+
+func (h *Ideas) UpdateIdeas(ctx context.Context, in *Ideas, out *Ideas) error {
+	return h.IdeasHandler.UpdateIdeas(ctx, in, out)
+}
+
+func (h *Ideas) DeleteIdeas(ctx context.Context, in *DeleteIdeasRequest, out *DeleteIdeasResponse) error {
+	return h.IdeasHandler.DeleteIdeas(ctx, in, out)
+}
+
+func (h *Ideas) HideIdeas(ctx context.Context, in *HideIdeasRequest, out *Ideas) error {
+	return h.IdeasHandler.HideIdeas(ctx, in, out)
+}

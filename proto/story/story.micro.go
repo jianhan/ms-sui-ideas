@@ -8,6 +8,9 @@ It is generated from these files:
 	proto/story/story.proto
 
 It has these top-level messages:
+	DeleteStoriesRequest
+	DeleteStoriesResponse
+	Stories
 	Story
 */
 package ideas
@@ -16,7 +19,12 @@ import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
 import _ "github.com/golang/protobuf/ptypes/timestamp"
-import _ "github.com/jianhan/ms-sui-ideas/proto/idea"
+
+import (
+	client "github.com/micro/go-micro/client"
+	server "github.com/micro/go-micro/server"
+	context "context"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -28,3 +36,92 @@ var _ = math.Inf
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ client.Option
+var _ server.Option
+
+// Client API for Stories service
+
+type StoriesClient interface {
+	NewStories(ctx context.Context, in *Stories, opts ...client.CallOption) (*Stories, error)
+	UpdateStories(ctx context.Context, in *Stories, opts ...client.CallOption) (*Stories, error)
+	DeleteStories(ctx context.Context, in *DeleteStoriesRequest, opts ...client.CallOption) (*DeleteStoriesResponse, error)
+}
+
+type storiesClient struct {
+	c           client.Client
+	serviceName string
+}
+
+func NewStoriesClient(serviceName string, c client.Client) StoriesClient {
+	if c == nil {
+		c = client.NewClient()
+	}
+	if len(serviceName) == 0 {
+		serviceName = "go.micro.srv.ideas"
+	}
+	return &storiesClient{
+		c:           c,
+		serviceName: serviceName,
+	}
+}
+
+func (c *storiesClient) NewStories(ctx context.Context, in *Stories, opts ...client.CallOption) (*Stories, error) {
+	req := c.c.NewRequest(c.serviceName, "Stories.NewStories", in)
+	out := new(Stories)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storiesClient) UpdateStories(ctx context.Context, in *Stories, opts ...client.CallOption) (*Stories, error) {
+	req := c.c.NewRequest(c.serviceName, "Stories.UpdateStories", in)
+	out := new(Stories)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *storiesClient) DeleteStories(ctx context.Context, in *DeleteStoriesRequest, opts ...client.CallOption) (*DeleteStoriesResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "Stories.DeleteStories", in)
+	out := new(DeleteStoriesResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for Stories service
+
+type StoriesHandler interface {
+	NewStories(context.Context, *Stories, *Stories) error
+	UpdateStories(context.Context, *Stories, *Stories) error
+	DeleteStories(context.Context, *DeleteStoriesRequest, *DeleteStoriesResponse) error
+}
+
+func RegisterStoriesHandler(s server.Server, hdlr StoriesHandler, opts ...server.HandlerOption) {
+	s.Handle(s.NewHandler(&Stories{hdlr}, opts...))
+}
+
+type Stories struct {
+	StoriesHandler
+}
+
+func (h *Stories) NewStories(ctx context.Context, in *Stories, out *Stories) error {
+	return h.StoriesHandler.NewStories(ctx, in, out)
+}
+
+func (h *Stories) UpdateStories(ctx context.Context, in *Stories, out *Stories) error {
+	return h.StoriesHandler.UpdateStories(ctx, in, out)
+}
+
+func (h *Stories) DeleteStories(ctx context.Context, in *DeleteStoriesRequest, out *DeleteStoriesResponse) error {
+	return h.StoriesHandler.DeleteStories(ctx, in, out)
+}
