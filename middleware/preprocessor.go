@@ -8,12 +8,12 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// Validator is a handler wrapper for validation of request
-func Validator(fn server.HandlerFunc) server.HandlerFunc {
+// Preprocessor is a handler wrapper for preprocess request
+func Preprocessor(fn server.HandlerFunc) server.HandlerFunc {
 	return func(ctx context.Context, req server.Request, rsp interface{}) error {
-		if m, ok := interface{}(req.Request()).(http.Validator); ok {
-			logrus.Info("Validation")
-			if err := m.Validate(); err != nil {
+		if m, ok := interface{}(req.Request()).(http.Preprocessor); ok {
+			logrus.Info("Pre process")
+			if err := m.Preprocess(); err != nil {
 				return err
 			}
 		}
