@@ -2,6 +2,7 @@ syntax = "proto3";
 package go.micro.srv.ideas;
 option go_package="ideas";
 import "google/protobuf/timestamp.proto";
+import "github.com/jianhan/ms-sui-ideas/proto/idea/idea.proto";
 
 enum AppType {
     WEB = 0;
@@ -31,13 +32,22 @@ message Idea {
     // @inject_tag: bson:"app_type" valid:"App type is required"
     repeated AppType type = 6;
     // @inject_tag: bson:"min_age"
-    uint32 min_age = 7;
+    uint64 min_age = 7;
     // @inject_tag: bson:"max_age"
-    uint32 max_age = 8;
+    uint64 max_age = 8;
     // @inject_tag: bson:"rating"
     float rating = 9;
+    // @inject_tag: bson:"features"
+    repeated Feature features = 10;
+    // @inject_tag: bson:"occupations"
+    repeated Occupation occupations = 11;
     // @inject_tag: bson:"created_at"
-    google.protobuf.Timestamp created_at  = 10;
+    google.protobuf.Timestamp created_at  = 12;
     // @inject_tag: bson:"updated_at"
-    google.protobuf.Timestamp updated_at = 11;
+    google.protobuf.Timestamp updated_at = 13;
+}
+
+message Feature {
+    Story story = 1;
+    uint64 display_order = 2;
 }

@@ -10,7 +10,7 @@ message Story {
     // @inject_tag: bson:"title" valid:"required~Title is required" conform:"trim"
     string title = 2;
     // @inject_tag: bson:"pirority" valid:"required~Pirority is required"
-    go.micro.srv.ideas.Pirority pirority = 3;
+    Pirority pirority = 3;
     // @inject_tag: bson:"role" valid:"required~Who is required" conform:"trim"
     string who = 4;
     // @inject_tag: bson:"action" valid:"required~What is required" conform:"trim"
