@@ -41,6 +41,7 @@ func main() {
 	srv := micro.NewService(
 		micro.Name(serviceConfigs.Name),
 		micro.WrapHandler(middleware.LogWrapper),
+		micro.WrapHandler(middleware.Validator),
 		micro.RegisterTTL(time.Duration(serviceConfigs.RegisterTTL)*time.Second),
 		micro.RegisterInterval(time.Duration(serviceConfigs.RegisterInterval)*10),
 		micro.Version(serviceConfigs.Version),
