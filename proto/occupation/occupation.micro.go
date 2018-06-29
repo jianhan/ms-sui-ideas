@@ -8,6 +8,7 @@ It is generated from these files:
 	proto/occupation/occupation.proto
 
 It has these top-level messages:
+	NewOccupationsRequest
 	HideOccupationsRequest
 	HideOccupationsResponse
 	Occupations
@@ -45,7 +46,7 @@ var _ server.Option
 // Client API for OccupationService service
 
 type OccupationServiceClient interface {
-	NewOccupations(ctx context.Context, in *Occupations, opts ...client.CallOption) (*Occupations, error)
+	NewOccupations(ctx context.Context, in *NewOccupationsRequest, opts ...client.CallOption) (*Occupations, error)
 	UpdateOccupations(ctx context.Context, in *Occupations, opts ...client.CallOption) (*Occupations, error)
 	HideOccupations(ctx context.Context, in *HideOccupationsRequest, opts ...client.CallOption) (*HideOccupationsResponse, error)
 }
@@ -68,7 +69,7 @@ func NewOccupationServiceClient(serviceName string, c client.Client) OccupationS
 	}
 }
 
-func (c *occupationServiceClient) NewOccupations(ctx context.Context, in *Occupations, opts ...client.CallOption) (*Occupations, error) {
+func (c *occupationServiceClient) NewOccupations(ctx context.Context, in *NewOccupationsRequest, opts ...client.CallOption) (*Occupations, error) {
 	req := c.c.NewRequest(c.serviceName, "OccupationService.NewOccupations", in)
 	out := new(Occupations)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -101,7 +102,7 @@ func (c *occupationServiceClient) HideOccupations(ctx context.Context, in *HideO
 // Server API for OccupationService service
 
 type OccupationServiceHandler interface {
-	NewOccupations(context.Context, *Occupations, *Occupations) error
+	NewOccupations(context.Context, *NewOccupationsRequest, *Occupations) error
 	UpdateOccupations(context.Context, *Occupations, *Occupations) error
 	HideOccupations(context.Context, *HideOccupationsRequest, *HideOccupationsResponse) error
 }
@@ -114,7 +115,7 @@ type OccupationService struct {
 	OccupationServiceHandler
 }
 
-func (h *OccupationService) NewOccupations(ctx context.Context, in *Occupations, out *Occupations) error {
+func (h *OccupationService) NewOccupations(ctx context.Context, in *NewOccupationsRequest, out *Occupations) error {
 	return h.OccupationServiceHandler.NewOccupations(ctx, in, out)
 }
 

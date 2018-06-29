@@ -17,7 +17,7 @@ func NewOccupation(db db.Occupation, stanConn stan.Conn) *Occupation {
 	return &Occupation{db: db, stanConn: stanConn}
 }
 
-func (h *Occupation) NewOccupations(ctx context.Context, req *occupation.Occupations, rsp *occupation.Occupations) (err error) {
+func (h *Occupation) NewOccupations(ctx context.Context, req *occupation.NewOccupationsRequest, rsp *occupation.Occupations) (err error) {
 	if rsp.Occupations, err = h.db.NewOccupations(req.Occupations); err != nil {
 		return
 	}

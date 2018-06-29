@@ -4,9 +4,13 @@ option go_package="occupation";
 import "google/protobuf/timestamp.proto";
 
 service OccupationService {
-    rpc NewOccupations(occupations) returns (occupations) {}
+    rpc NewOccupations(NewOccupationsRequest) returns (occupations) {}
     rpc UpdateOccupations(occupations) returns (occupations) {}
     rpc HideOccupations(HideOccupationsRequest) returns (HideOccupationsResponse) {}
+}
+
+message NewOccupationsRequest {
+    repeated Occupation occupations = 1;
 }
 
 message HideOccupationsRequest {
