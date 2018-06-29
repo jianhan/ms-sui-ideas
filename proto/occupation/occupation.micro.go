@@ -2,7 +2,7 @@
 // source: proto/occupation/occupation.proto
 
 /*
-Package ideas is a generated protocol buffer package.
+Package occupations is a generated protocol buffer package.
 
 It is generated from these files:
 	proto/occupation/occupation.proto
@@ -13,7 +13,7 @@ It has these top-level messages:
 	Occupations
 	Occupation
 */
-package ideas
+package occupations
 
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"

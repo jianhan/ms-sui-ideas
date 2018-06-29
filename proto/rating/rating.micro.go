@@ -2,7 +2,7 @@
 // source: proto/rating/rating.proto
 
 /*
-Package ideas is a generated protocol buffer package.
+Package ratings is a generated protocol buffer package.
 
 It is generated from these files:
 	proto/rating/rating.proto
@@ -13,7 +13,7 @@ It has these top-level messages:
 	Ratings
 	Rating
 */
-package ideas
+package ratings
 
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"

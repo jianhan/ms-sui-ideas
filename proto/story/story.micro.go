@@ -2,7 +2,7 @@
 // source: proto/story/story.proto
 
 /*
-Package ideas is a generated protocol buffer package.
+Package stories is a generated protocol buffer package.
 
 It is generated from these files:
 	proto/story/story.proto
@@ -13,7 +13,7 @@ It has these top-level messages:
 	Stories
 	Story
 */
-package ideas
+package stories
 
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
