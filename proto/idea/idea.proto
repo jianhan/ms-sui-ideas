@@ -4,6 +4,16 @@ option go_package="ideas";
 import "google/protobuf/timestamp.proto";
 import "github.com/jianhan/ms-sui-ideas/proto/idea/idea.proto";
 
+// Service declares all RPC calls for ideas related functions.
+service Ideas {
+    rpc NewIdeas(NewIdeasRequest) returns (NewIdeasResponse) {}
+    rpc DeleteIdeas(DeleteIdeaRequest) returns (DeleteIdeaResponse) {}
+    rpc HideIdeas(HideIdeasRequest) return (HideIdeasResponse) {}
+    rpc AddFeatures(AddFeaturesRequest) return (AddFeaturesResponse) {}
+    rpc DeleteFeatures(DeleteFeaturesRequest) return (DeleteFeaturesResponse) {}
+}
+
+// AppType defines application type
 enum AppType {
     WEB = 0;
     MOBILE = 1;
@@ -11,6 +21,7 @@ enum AppType {
     OTHER=3;
 }
 
+// Pirority defines a set of pirorities
 enum Pirority {
     UNSET=0;
     NICE_TO_HAVE = 1;
