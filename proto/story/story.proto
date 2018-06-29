@@ -1,0 +1,27 @@
+syntax = "proto3";
+package go.micro.srv.ideas;
+option go_package="ideas";
+import "google/protobuf/timestamp.proto";
+import "github.com/jianhan/ms-sui-ideas/proto/idea/idea.proto";
+
+message Story {
+    // @inject_tag: bson:"_id" valid:"uuidv4~ID must be a valid UUIDv4" conform:"trim"
+    string ID = 1;
+    // @inject_tag: bson:"title" valid:"required~Title is required" conform:"trim"
+    string title = 2;
+    // @inject_tag: bson:"pirority" valid:"required~Pirority is required"
+    go.micro.srv.ideas.Pirority pirority = 3;
+    // @inject_tag: bson:"role" valid:"required~Who is required" conform:"trim"
+    string who = 4;
+    // @inject_tag: bson:"action" valid:"required~What is required" conform:"trim"
+    string what = 5;
+    // @inject_tag: bson:"goal" valid:"required~Goal is required" conform:"trim"
+    string goal = 6;
+    // @inject_tag: bson:"order"
+    uint64 order = 7;
+    // @inject_tag: bson:"created_at"
+    google.protobuf.Timestamp created_at  = 8;
+    // @inject_tag: bson:"updated_at"
+    google.protobuf.Timestamp updated_at = 9;
+}
+

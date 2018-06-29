@@ -1,0 +1,15 @@
+syntax = "proto3";
+package go.micro.srv.ideas;
+option go_package="ideas";
+import "google/protobuf/timestamp.proto";
+
+message Occupation {
+    // @inject_tag: bson:"_id" valid:"uuidv4~Occupation ID must be a valid UUIDv4" conform:"trim"
+    string ID = 1;
+    // @inject_tag: bson:"name" valid:"required~Occupation name is required" conform:"trim"
+    string name = 2;
+    // @inject_tag: bson:"created_at"
+    google.protobuf.Timestamp created_at  = 3;
+    // @inject_tag: bson:"updated_at"
+    google.protobuf.Timestamp updated_at = 4;
+}
