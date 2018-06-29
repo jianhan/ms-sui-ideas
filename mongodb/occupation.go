@@ -1,8 +1,10 @@
 package mongodb
 
 import (
+	"github.com/asaskevich/govalidator"
 	"github.com/jianhan/ms-sui-ideas/db"
 	poccupation "github.com/jianhan/ms-sui-ideas/proto/occupation"
+	"github.com/leebenson/conform"
 	"gopkg.in/mgo.v2"
 )
 
@@ -30,7 +32,26 @@ func NewOccupation(session *mgo.Session, db, collection string) db.Occupation {
 }
 
 func (d *occupation) NewOccupations(occupations []*poccupation.Occupation) ([]*poccupation.Occupation, error) {
-	return nil, nil
+	retVal := []*poccupation.Occupation{}
+	bulk := d.session.DB(d.db).C(d.collection).Bulk()
+	for _, occupation := range occupations {
+		conform.Strings(occupation)
+		d.beforeUpsert(occupation)
+
+		// validation
+		if _, err := govalidator.ValidateStruct(occupation); err != nil {
+			return nil, err
+		}
+
+		bulk.Insert(occupation)
+		retVal = append(retVal, occupation)
+	}
+	_, err := bulk.Run()
+	if err != nil {
+		return nil, err
+	}
+
+	return retVal, nil
 }
 
 func (d *occupation) UpdateOccupations(occupations []*poccupation.Occupation) ([]*poccupation.Occupation, error) {

@@ -5,7 +5,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/jianhan/ms-sui-ideas/handler"
 	"github.com/jianhan/ms-sui-ideas/middleware"
 	"github.com/jianhan/ms-sui-ideas/mongodb"
@@ -15,7 +14,7 @@ import (
 	"github.com/nats-io/go-nats-streaming"
 	"github.com/spf13/viper"
 	_ "github.com/spf13/viper/remote"
-	mgo "gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2"
 )
 
 func main() {
@@ -23,10 +22,9 @@ func main() {
 	if err != nil {
 		panic(fmt.Sprintf("error while reading configurations: %s", err.Error()))
 	}
-	spew.Dump(viper.GetString("mongodb.host"))
 
 	// init nats streaming
-	sc, err := stan.Connect(viper.GetString("nats_streaming.cluster"), os.Getenv("nats_streaming.client_id"))
+	sc, err := stan.Connect(viper.GetString("nats_streaming.cluster"), viper.GetString("nats_streaming.client_id"))
 	if err != nil {
 		panic(err)
 	}
