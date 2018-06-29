@@ -7,6 +7,8 @@ import (
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/jianhan/ms-sui-ideas/handler"
+	"github.com/jianhan/ms-sui-ideas/middleware"
+	"github.com/jianhan/ms-sui-ideas/mongodb"
 	"github.com/jianhan/ms-sui-ideas/proto/occupation"
 	cfgreader "github.com/jianhan/pkg/configs"
 	"github.com/micro/go-micro"
@@ -40,6 +42,7 @@ func main() {
 	// initialize new service
 	srv := micro.NewService(
 		micro.Name(serviceConfigs.Name),
+		micro.WrapHandler(middleware.LogWrapper),
 		micro.RegisterTTL(time.Duration(serviceConfigs.RegisterTTL)*time.Second),
 		micro.RegisterInterval(time.Duration(serviceConfigs.RegisterInterval)*10),
 		micro.Version(serviceConfigs.Version),
@@ -48,7 +51,7 @@ func main() {
 
 	occupation.RegisterOccupationServiceHandler(
 		srv.Server(),
-		handler.NewOccupation(categoriesDB, productsDB, sc),
+		handler.NewOccupation(mongodb.NewOccupation(session, viper.GetString("mongodb.db"), "occupations"), sc),
 	)
 
 	// init service
