@@ -5,8 +5,8 @@ import (
 )
 
 type Idea interface {
-	Ideas(ideas []*ideas.Idea) (*ideas.Idea, error)
-	UpdateIdeas(ideas []*ideas.Idea) (*ideas.Idea, error)
+	Ideas(ideas []*idea.Idea) (*idea.Idea, error)
+	UpdateIdeas(ideas []*idea.Idea) (*idea.Idea, error)
 	DeleteIdeas(ids []string) error
 	HideIdeas(ids []string) error
 }

@@ -5,7 +5,7 @@ import (
 )
 
 type Occupation interface {
-	NewOccupations(occupations []*occupations.Occupation) (*occupations.Occupation, error)
-	UpdateOccupations(occupations []*occupations.Occupation) (*occupations.Occupation, error)
-	HideOccupations(ids []string) ([]*occupations.Occupation, error)
+	NewOccupations(occupations []*occupation.Occupation) (*occupation.Occupation, error)
+	UpdateOccupations(occupations []*occupation.Occupation) (*occupation.Occupation, error)
+	HideOccupations(ids []string) ([]*occupation.Occupation, error)
 }
