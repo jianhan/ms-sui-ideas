@@ -15,7 +15,6 @@ func Validator(fn server.HandlerFunc) server.HandlerFunc {
 				return err
 			}
 		}
-		err := fn(ctx, req, rsp)
-		return err
+		return fn(ctx, req, rsp)
 	}
 }
