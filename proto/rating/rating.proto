@@ -3,6 +3,24 @@ package go.micro.srv.ideas;
 option go_package="ideas";
 import "google/protobuf/timestamp.proto";
 
+service Ratings {
+    rpc NewRatings(ratings) returns (ratings) {}
+    rpc UpdateRatings(ratings) returns (ratings) {}
+    rpc DeleteRatings(DeleteRatingsRequest) returns (DeleteRatingsResponse) {}
+}
+
+message DeleteRatingsRequest {
+    repeated string ids = 1;
+}
+
+message DeleteRatingsResponse {
+
+}
+
+message ratings {
+    repeated Rating ratings = 1;
+}
+
 message Rating {
     // @inject_tag: bson:"_id" valid:"required~ID is required, uuidv4~ID must be a valid UUIDv4" conform:"trim"
     string ID = 1;

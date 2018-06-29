@@ -101,23 +101,23 @@ func (m *Stories) GetStories() []*Story {
 
 type Story struct {
 	// @inject_tag: bson:"_id" valid:"required~ID is required, uuidv4~ID must be a valid UUIDv4" conform:"trim"
-	ID string `protobuf:"bytes,1,opt,name=ID" json:"ID,omitempty"`
+	ID string `protobuf:"bytes,1,opt,name=ID" json:"ID,omitempty" bson:"_id" valid:"required~ID is required, uuidv4~ID must be a valid UUIDv4" conform:"trim"`
 	// @inject_tag: bson:"title" valid:"required~Title is required" conform:"trim"
-	Title string `protobuf:"bytes,2,opt,name=title" json:"title,omitempty"`
+	Title string `protobuf:"bytes,2,opt,name=title" json:"title,omitempty" bson:"title" valid:"required~Title is required" conform:"trim"`
 	// @inject_tag: bson:"pirority" valid:"required~Pirority is required"
-	Pirority Pirority `protobuf:"varint,3,opt,name=pirority,enum=go.micro.srv.ideas.Pirority" json:"pirority,omitempty"`
+	Pirority Pirority `protobuf:"varint,3,opt,name=pirority,enum=go.micro.srv.ideas.Pirority" json:"pirority,omitempty" bson:"pirority" valid:"required~Pirority is required"`
 	// @inject_tag: bson:"role" valid:"required~Who is required" conform:"trim"
-	Who string `protobuf:"bytes,4,opt,name=who" json:"who,omitempty"`
+	Who string `protobuf:"bytes,4,opt,name=who" json:"who,omitempty" bson:"role" valid:"required~Who is required" conform:"trim"`
 	// @inject_tag: bson:"action" valid:"required~What is required" conform:"trim"
-	What string `protobuf:"bytes,5,opt,name=what" json:"what,omitempty"`
+	What string `protobuf:"bytes,5,opt,name=what" json:"what,omitempty" bson:"action" valid:"required~What is required" conform:"trim"`
 	// @inject_tag: bson:"goal" valid:"required~Goal is required" conform:"trim"
-	Goal string `protobuf:"bytes,6,opt,name=goal" json:"goal,omitempty"`
+	Goal string `protobuf:"bytes,6,opt,name=goal" json:"goal,omitempty" bson:"goal" valid:"required~Goal is required" conform:"trim"`
 	// @inject_tag: bson:"order"
-	Order uint64 `protobuf:"varint,7,opt,name=order" json:"order,omitempty"`
+	Order uint64 `protobuf:"varint,7,opt,name=order" json:"order,omitempty" bson:"order"`
 	// @inject_tag: bson:"created_at"
-	CreatedAt *google_protobuf.Timestamp `protobuf:"bytes,8,opt,name=created_at,json=createdAt" json:"created_at,omitempty"`
+	CreatedAt *google_protobuf.Timestamp `protobuf:"bytes,8,opt,name=created_at,json=createdAt" json:"created_at,omitempty" bson:"created_at"`
 	// @inject_tag: bson:"updated_at"
-	UpdatedAt *google_protobuf.Timestamp `protobuf:"bytes,9,opt,name=updated_at,json=updatedAt" json:"updated_at,omitempty"`
+	UpdatedAt *google_protobuf.Timestamp `protobuf:"bytes,9,opt,name=updated_at,json=updatedAt" json:"updated_at,omitempty" bson:"updated_at"`
 }
 
 func (m *Story) Reset()                    { *m = Story{} }

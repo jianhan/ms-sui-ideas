@@ -121,31 +121,31 @@ func (m *HideIdeasRequest) GetIds() []string {
 
 type Idea struct {
 	// @inject_tag: bson:"_id" valid:"required~ID is required, uuidv4~ID must be a valid UUIDv4" conform:"trim"
-	ID string `protobuf:"bytes,1,opt,name=ID" json:"ID,omitempty"`
+	ID string `protobuf:"bytes,1,opt,name=ID" json:"ID,omitempty" bson:"_id" valid:"required~ID is required, uuidv4~ID must be a valid UUIDv4" conform:"trim"`
 	// @inject_tag: bson:"name" valid:"required~Name is required" conform:"trim"
-	Name string `protobuf:"bytes,2,opt,name=name" json:"name,omitempty"`
+	Name string `protobuf:"bytes,2,opt,name=name" json:"name,omitempty" bson:"name" valid:"required~Name is required" conform:"trim"`
 	// @inject_tag: bson:"slug" valid:"required~Slug is required" conform:"trim"
-	Slug string `protobuf:"bytes,3,opt,name=slug" json:"slug,omitempty"`
+	Slug string `protobuf:"bytes,3,opt,name=slug" json:"slug,omitempty" bson:"slug" valid:"required~Slug is required" conform:"trim"`
 	// @inject_tag: bson:"description" valid:"Description is required" conform:"trim"
-	Description string `protobuf:"bytes,4,opt,name=description" json:"description,omitempty"`
+	Description string `protobuf:"bytes,4,opt,name=description" json:"description,omitempty" bson:"description" valid:"Description is required" conform:"trim"`
 	// @inject_tag: bson:"hidden"
-	Hidden bool `protobuf:"varint,5,opt,name=hidden" json:"hidden,omitempty"`
+	Hidden bool `protobuf:"varint,5,opt,name=hidden" json:"hidden,omitempty" bson:"hidden"`
 	// @inject_tag: bson:"app_type" valid:"App type is required"
-	Type []AppType `protobuf:"varint,6,rep,packed,name=type,enum=go.micro.srv.ideas.AppType" json:"type,omitempty"`
+	Type []AppType `protobuf:"varint,6,rep,packed,name=type,enum=go.micro.srv.ideas.AppType" json:"type,omitempty" bson:"app_type" valid:"App type is required"`
 	// @inject_tag: bson:"min_age"
-	MinAge uint64 `protobuf:"varint,7,opt,name=min_age,json=minAge" json:"min_age,omitempty"`
+	MinAge uint64 `protobuf:"varint,7,opt,name=min_age,json=minAge" json:"min_age,omitempty" bson:"min_age"`
 	// @inject_tag: bson:"max_age"
-	MaxAge uint64 `protobuf:"varint,8,opt,name=max_age,json=maxAge" json:"max_age,omitempty"`
+	MaxAge uint64 `protobuf:"varint,8,opt,name=max_age,json=maxAge" json:"max_age,omitempty" bson:"max_age"`
 	// @inject_tag: bson:"rating"
-	Rating []*go_micro_srv_ideas.Rating `protobuf:"bytes,9,rep,name=rating" json:"rating,omitempty"`
+	Rating []*go_micro_srv_ideas.Rating `protobuf:"bytes,9,rep,name=rating" json:"rating,omitempty" bson:"rating"`
 	// @inject_tag: bson:"stories"
-	Stories []*go_micro_srv_ideas1.Story `protobuf:"bytes,10,rep,name=stories" json:"stories,omitempty"`
+	Stories []*go_micro_srv_ideas1.Story `protobuf:"bytes,10,rep,name=stories" json:"stories,omitempty" bson:"stories"`
 	// @inject_tag: bson:"occupations"
-	Occupations []*go_micro_srv_ideas2.Occupation `protobuf:"bytes,11,rep,name=occupations" json:"occupations,omitempty"`
+	Occupations []*go_micro_srv_ideas2.Occupation `protobuf:"bytes,11,rep,name=occupations" json:"occupations,omitempty" bson:"occupations"`
 	// @inject_tag: bson:"created_at"
-	CreatedAt *google_protobuf.Timestamp `protobuf:"bytes,12,opt,name=created_at,json=createdAt" json:"created_at,omitempty"`
+	CreatedAt *google_protobuf.Timestamp `protobuf:"bytes,12,opt,name=created_at,json=createdAt" json:"created_at,omitempty" bson:"created_at"`
 	// @inject_tag: bson:"updated_at"
-	UpdatedAt *google_protobuf.Timestamp `protobuf:"bytes,13,opt,name=updated_at,json=updatedAt" json:"updated_at,omitempty"`
+	UpdatedAt *google_protobuf.Timestamp `protobuf:"bytes,13,opt,name=updated_at,json=updatedAt" json:"updated_at,omitempty" bson:"updated_at"`
 }
 
 func (m *Idea) Reset()                    { *m = Idea{} }

@@ -8,6 +8,9 @@ It is generated from these files:
 	proto/occupation/occupation.proto
 
 It has these top-level messages:
+	HideOccupationsRequest
+	HideOccupationsResponse
+	Occupations
 	Occupation
 */
 package ideas
@@ -16,6 +19,12 @@ import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
 import _ "github.com/golang/protobuf/ptypes/timestamp"
+
+import (
+	client "github.com/micro/go-micro/client"
+	server "github.com/micro/go-micro/server"
+	context "context"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -27,3 +36,92 @@ var _ = math.Inf
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ client.Option
+var _ server.Option
+
+// Client API for Occupations service
+
+type OccupationsClient interface {
+	NewOccupations(ctx context.Context, in *Occupations, opts ...client.CallOption) (*Occupations, error)
+	UpdateOccupations(ctx context.Context, in *Occupations, opts ...client.CallOption) (*Occupations, error)
+	HideOccupations(ctx context.Context, in *HideOccupationsRequest, opts ...client.CallOption) (*HideOccupationsResponse, error)
+}
+
+type occupationsClient struct {
+	c           client.Client
+	serviceName string
+}
+
+func NewOccupationsClient(serviceName string, c client.Client) OccupationsClient {
+	if c == nil {
+		c = client.NewClient()
+	}
+	if len(serviceName) == 0 {
+		serviceName = "go.micro.srv.ideas"
+	}
+	return &occupationsClient{
+		c:           c,
+		serviceName: serviceName,
+	}
+}
+
+func (c *occupationsClient) NewOccupations(ctx context.Context, in *Occupations, opts ...client.CallOption) (*Occupations, error) {
+	req := c.c.NewRequest(c.serviceName, "Occupations.NewOccupations", in)
+	out := new(Occupations)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *occupationsClient) UpdateOccupations(ctx context.Context, in *Occupations, opts ...client.CallOption) (*Occupations, error) {
+	req := c.c.NewRequest(c.serviceName, "Occupations.UpdateOccupations", in)
+	out := new(Occupations)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *occupationsClient) HideOccupations(ctx context.Context, in *HideOccupationsRequest, opts ...client.CallOption) (*HideOccupationsResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "Occupations.HideOccupations", in)
+	out := new(HideOccupationsResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for Occupations service
+
+type OccupationsHandler interface {
+	NewOccupations(context.Context, *Occupations, *Occupations) error
+	UpdateOccupations(context.Context, *Occupations, *Occupations) error
+	HideOccupations(context.Context, *HideOccupationsRequest, *HideOccupationsResponse) error
+}
+
+func RegisterOccupationsHandler(s server.Server, hdlr OccupationsHandler, opts ...server.HandlerOption) {
+	s.Handle(s.NewHandler(&Occupations{hdlr}, opts...))
+}
+
+type Occupations struct {
+	OccupationsHandler
+}
+
+func (h *Occupations) NewOccupations(ctx context.Context, in *Occupations, out *Occupations) error {
+	return h.OccupationsHandler.NewOccupations(ctx, in, out)
+}
+
+func (h *Occupations) UpdateOccupations(ctx context.Context, in *Occupations, out *Occupations) error {
+	return h.OccupationsHandler.UpdateOccupations(ctx, in, out)
+}
+
+func (h *Occupations) HideOccupations(ctx context.Context, in *HideOccupationsRequest, out *HideOccupationsResponse) error {
+	return h.OccupationsHandler.HideOccupations(ctx, in, out)
+}

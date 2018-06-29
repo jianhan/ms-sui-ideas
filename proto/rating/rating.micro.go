@@ -8,6 +8,9 @@ It is generated from these files:
 	proto/rating/rating.proto
 
 It has these top-level messages:
+	DeleteRatingsRequest
+	DeleteRatingsResponse
+	Ratings
 	Rating
 */
 package ideas
@@ -16,6 +19,12 @@ import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
 import _ "github.com/golang/protobuf/ptypes/timestamp"
+
+import (
+	client "github.com/micro/go-micro/client"
+	server "github.com/micro/go-micro/server"
+	context "context"
+)
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
@@ -27,3 +36,92 @@ var _ = math.Inf
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ client.Option
+var _ server.Option
+
+// Client API for Ratings service
+
+type RatingsClient interface {
+	NewRatings(ctx context.Context, in *Ratings, opts ...client.CallOption) (*Ratings, error)
+	UpdateRatings(ctx context.Context, in *Ratings, opts ...client.CallOption) (*Ratings, error)
+	DeleteRatings(ctx context.Context, in *DeleteRatingsRequest, opts ...client.CallOption) (*DeleteRatingsResponse, error)
+}
+
+type ratingsClient struct {
+	c           client.Client
+	serviceName string
+}
+
+func NewRatingsClient(serviceName string, c client.Client) RatingsClient {
+	if c == nil {
+		c = client.NewClient()
+	}
+	if len(serviceName) == 0 {
+		serviceName = "go.micro.srv.ideas"
+	}
+	return &ratingsClient{
+		c:           c,
+		serviceName: serviceName,
+	}
+}
+
+func (c *ratingsClient) NewRatings(ctx context.Context, in *Ratings, opts ...client.CallOption) (*Ratings, error) {
+	req := c.c.NewRequest(c.serviceName, "Ratings.NewRatings", in)
+	out := new(Ratings)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *ratingsClient) UpdateRatings(ctx context.Context, in *Ratings, opts ...client.CallOption) (*Ratings, error) {
+	req := c.c.NewRequest(c.serviceName, "Ratings.UpdateRatings", in)
+	out := new(Ratings)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *ratingsClient) DeleteRatings(ctx context.Context, in *DeleteRatingsRequest, opts ...client.CallOption) (*DeleteRatingsResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "Ratings.DeleteRatings", in)
+	out := new(DeleteRatingsResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for Ratings service
+
+type RatingsHandler interface {
+	NewRatings(context.Context, *Ratings, *Ratings) error
+	UpdateRatings(context.Context, *Ratings, *Ratings) error
+	DeleteRatings(context.Context, *DeleteRatingsRequest, *DeleteRatingsResponse) error
+}
+
+func RegisterRatingsHandler(s server.Server, hdlr RatingsHandler, opts ...server.HandlerOption) {
+	s.Handle(s.NewHandler(&Ratings{hdlr}, opts...))
+}
+
+type Ratings struct {
+	RatingsHandler
+}
+
+func (h *Ratings) NewRatings(ctx context.Context, in *Ratings, out *Ratings) error {
+	return h.RatingsHandler.NewRatings(ctx, in, out)
+}
+
+func (h *Ratings) UpdateRatings(ctx context.Context, in *Ratings, out *Ratings) error {
+	return h.RatingsHandler.UpdateRatings(ctx, in, out)
+}
+
+func (h *Ratings) DeleteRatings(ctx context.Context, in *DeleteRatingsRequest, out *DeleteRatingsResponse) error {
+	return h.RatingsHandler.DeleteRatings(ctx, in, out)
+}

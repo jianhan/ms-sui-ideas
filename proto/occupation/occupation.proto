@@ -3,13 +3,33 @@ package go.micro.srv.ideas;
 option go_package="ideas";
 import "google/protobuf/timestamp.proto";
 
+service Occupations {
+    rpc NewOccupations(occupations) returns (occupations) {}
+    rpc UpdateOccupations(occupations) returns (occupations) {}
+    rpc HideOccupations(HideOccupationsRequest) returns (HideOccupationsResponse) {}
+}
+
+message HideOccupationsRequest {
+    repeated string ids = 1;
+}
+
+message HideOccupationsResponse {
+
+}
+
+message occupations {
+    repeated Occupation occupations = 1;
+}
+
 message Occupation {
     // @inject_tag: bson:"_id" valid:"required~ID is required, uuidv4~ID must be a valid UUIDv4" conform:"trim"
     string ID = 1;
     // @inject_tag: bson:"name" valid:"required~Name is required" conform:"trim"
     string name = 2;
+    // @inject_tag: bson:"hidden"
+    bool hidden = 3;
     // @inject_tag: bson:"created_at"
-    google.protobuf.Timestamp created_at = 3;
+    google.protobuf.Timestamp created_at = 4;
     // @inject_tag: bson:"updated_at"
-    google.protobuf.Timestamp updated_at = 4;
+    google.protobuf.Timestamp updated_at = 5;
 }
