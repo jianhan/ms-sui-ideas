@@ -18,10 +18,18 @@ func NewOccupation(db db.Occupation, stanConn stan.Conn) *Occupation {
 }
 
 func (h *Occupation) NewOccupations(ctx context.Context, req *occupation.Occupations, rsp *occupation.Occupations) (err error) {
+	if rsp.Occupations, err = h.db.NewOccupations(req.Occupations); err != nil {
+		return
+	}
+
 	return
 }
 
 func (h *Occupation) UpdateOccupations(ctx context.Context, req *occupation.Occupations, rsp *occupation.Occupations) (err error) {
+	if rsp.Occupations, err = h.db.UpdateOccupations(req.Occupations); err != nil {
+		return
+	}
+
 	return
 }
 
