@@ -2,7 +2,7 @@
 // source: proto/occupation/occupation.proto
 
 /*
-Package occupations is a generated protocol buffer package.
+Package occupation is a generated protocol buffer package.
 
 It is generated from these files:
 	proto/occupation/occupation.proto
@@ -13,7 +13,7 @@ It has these top-level messages:
 	Occupations
 	Occupation
 */
-package occupations
+package occupation
 
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"

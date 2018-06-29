@@ -2,7 +2,7 @@
 // source: proto/idea/idea.proto
 
 /*
-Package ideas is a generated protocol buffer package.
+Package idea is a generated protocol buffer package.
 
 It is generated from these files:
 	proto/idea/idea.proto
@@ -14,7 +14,7 @@ It has these top-level messages:
 	HideIdeasRequest
 	Idea
 */
-package ideas
+package idea
 
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"

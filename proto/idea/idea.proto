@@ -1,6 +1,7 @@
 syntax = "proto3";
 package go.micro.srv.ideas;
-option go_package="ideas";
+option go_package="idea";
+
 import "google/protobuf/timestamp.proto";
 import "github.com/jianhan/ms-sui-ideas/proto/rating/rating.proto";
 import "github.com/jianhan/ms-sui-ideas/proto/story/story.proto";

@@ -1,6 +1,6 @@
 syntax = "proto3";
 package go.micro.srv.ideas;
-option go_package="stories";
+option go_package="story";
 import "google/protobuf/timestamp.proto";
 
 // Pirority defines a set of pirorities
@@ -44,9 +44,11 @@ message Story {
     string goal = 6;
     // @inject_tag: bson:"order"
     uint64 order = 7;
+    // @inject_tag: bson:"idea_id" valid:"required~Idea ID is required, uuidv4~Idea id must be a valid UUIDv4" conform:"trim"
+    string idea_id = 8;
     // @inject_tag: bson:"created_at"
-    google.protobuf.Timestamp created_at = 8;
+    google.protobuf.Timestamp created_at = 9;
     // @inject_tag: bson:"updated_at"
-    google.protobuf.Timestamp updated_at = 9;
+    google.protobuf.Timestamp updated_at = 10;
 }
 
