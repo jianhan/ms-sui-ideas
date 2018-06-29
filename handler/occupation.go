@@ -25,7 +25,7 @@ func (h *Occupation) NewOccupations(ctx context.Context, req *occupation.NewOccu
 	return
 }
 
-func (h *Occupation) UpdateOccupations(ctx context.Context, req *occupation.Occupations, rsp *occupation.Occupations) (err error) {
+func (h *Occupation) UpdateOccupations(ctx context.Context, req *occupation.UpdateOccupationsRequest, rsp *occupation.Occupations) (err error) {
 	if rsp.Occupations, err = h.db.UpdateOccupations(req.Occupations); err != nil {
 		return
 	}
@@ -33,6 +33,6 @@ func (h *Occupation) UpdateOccupations(ctx context.Context, req *occupation.Occu
 	return
 }
 
-func (h *Occupation) HideOccupations(ctx context.Context, req *occupation.HideOccupationsRequest, rsp *occupation.HideOccupationsResponse) (err error) {
+func (h *Occupation) HideOccupations(ctx context.Context, req *occupation.HideOccupationsRequest, rsp *occupation.Occupations) (err error) {
 	return
 }

@@ -1,10 +1,8 @@
 package mongodb
 
 import (
-	"github.com/asaskevich/govalidator"
 	"github.com/jianhan/ms-sui-ideas/db"
 	poccupation "github.com/jianhan/ms-sui-ideas/proto/occupation"
-	"github.com/leebenson/conform"
 	"gopkg.in/mgo.v2"
 )
 
@@ -12,7 +10,7 @@ type occupation struct {
 	base
 }
 
-func NewOccupation(session *mgo.Session, db, collection string) db.Occupation {
+func Occupation(session *mgo.Session, db, collection string) db.Occupation {
 	c := session.DB(db).C(collection)
 	nameIndex := mgo.Index{
 		Key:    []string{"name"},
@@ -35,14 +33,6 @@ func (d *occupation) NewOccupations(occupations []*poccupation.Occupation) ([]*p
 	retVal := []*poccupation.Occupation{}
 	bulk := d.session.DB(d.db).C(d.collection).Bulk()
 	for _, occupation := range occupations {
-		conform.Strings(occupation)
-		d.beforeUpsert(occupation)
-
-		// validation
-		if _, err := govalidator.ValidateStruct(occupation); err != nil {
-			return nil, err
-		}
-
 		bulk.Insert(occupation)
 		retVal = append(retVal, occupation)
 	}

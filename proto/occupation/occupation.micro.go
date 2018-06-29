@@ -8,9 +8,9 @@ It is generated from these files:
 	proto/occupation/occupation.proto
 
 It has these top-level messages:
+	UpdateOccupationsRequest
 	NewOccupationsRequest
 	HideOccupationsRequest
-	HideOccupationsResponse
 	Occupations
 	Occupation
 */
@@ -47,8 +47,8 @@ var _ server.Option
 
 type OccupationServiceClient interface {
 	NewOccupations(ctx context.Context, in *NewOccupationsRequest, opts ...client.CallOption) (*Occupations, error)
-	UpdateOccupations(ctx context.Context, in *Occupations, opts ...client.CallOption) (*Occupations, error)
-	HideOccupations(ctx context.Context, in *HideOccupationsRequest, opts ...client.CallOption) (*HideOccupationsResponse, error)
+	UpdateOccupations(ctx context.Context, in *UpdateOccupationsRequest, opts ...client.CallOption) (*Occupations, error)
+	HideOccupations(ctx context.Context, in *HideOccupationsRequest, opts ...client.CallOption) (*Occupations, error)
 }
 
 type occupationServiceClient struct {
@@ -79,7 +79,7 @@ func (c *occupationServiceClient) NewOccupations(ctx context.Context, in *NewOcc
 	return out, nil
 }
 
-func (c *occupationServiceClient) UpdateOccupations(ctx context.Context, in *Occupations, opts ...client.CallOption) (*Occupations, error) {
+func (c *occupationServiceClient) UpdateOccupations(ctx context.Context, in *UpdateOccupationsRequest, opts ...client.CallOption) (*Occupations, error) {
 	req := c.c.NewRequest(c.serviceName, "OccupationService.UpdateOccupations", in)
 	out := new(Occupations)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -89,9 +89,9 @@ func (c *occupationServiceClient) UpdateOccupations(ctx context.Context, in *Occ
 	return out, nil
 }
 
-func (c *occupationServiceClient) HideOccupations(ctx context.Context, in *HideOccupationsRequest, opts ...client.CallOption) (*HideOccupationsResponse, error) {
+func (c *occupationServiceClient) HideOccupations(ctx context.Context, in *HideOccupationsRequest, opts ...client.CallOption) (*Occupations, error) {
 	req := c.c.NewRequest(c.serviceName, "OccupationService.HideOccupations", in)
-	out := new(HideOccupationsResponse)
+	out := new(Occupations)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -103,8 +103,8 @@ func (c *occupationServiceClient) HideOccupations(ctx context.Context, in *HideO
 
 type OccupationServiceHandler interface {
 	NewOccupations(context.Context, *NewOccupationsRequest, *Occupations) error
-	UpdateOccupations(context.Context, *Occupations, *Occupations) error
-	HideOccupations(context.Context, *HideOccupationsRequest, *HideOccupationsResponse) error
+	UpdateOccupations(context.Context, *UpdateOccupationsRequest, *Occupations) error
+	HideOccupations(context.Context, *HideOccupationsRequest, *Occupations) error
 }
 
 func RegisterOccupationServiceHandler(s server.Server, hdlr OccupationServiceHandler, opts ...server.HandlerOption) {
@@ -119,10 +119,10 @@ func (h *OccupationService) NewOccupations(ctx context.Context, in *NewOccupatio
 	return h.OccupationServiceHandler.NewOccupations(ctx, in, out)
 }
 
-func (h *OccupationService) UpdateOccupations(ctx context.Context, in *Occupations, out *Occupations) error {
+func (h *OccupationService) UpdateOccupations(ctx context.Context, in *UpdateOccupationsRequest, out *Occupations) error {
 	return h.OccupationServiceHandler.UpdateOccupations(ctx, in, out)
 }
 
-func (h *OccupationService) HideOccupations(ctx context.Context, in *HideOccupationsRequest, out *HideOccupationsResponse) error {
+func (h *OccupationService) HideOccupations(ctx context.Context, in *HideOccupationsRequest, out *Occupations) error {
 	return h.OccupationServiceHandler.HideOccupations(ctx, in, out)
 }

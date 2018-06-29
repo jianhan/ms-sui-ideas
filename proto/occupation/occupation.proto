@@ -5,8 +5,12 @@ import "google/protobuf/timestamp.proto";
 
 service OccupationService {
     rpc NewOccupations(NewOccupationsRequest) returns (occupations) {}
-    rpc UpdateOccupations(occupations) returns (occupations) {}
-    rpc HideOccupations(HideOccupationsRequest) returns (HideOccupationsResponse) {}
+    rpc UpdateOccupations(UpdateOccupationsRequest) returns (occupations) {}
+    rpc HideOccupations(HideOccupationsRequest) returns (occupations) {}
+}
+
+message UpdateOccupationsRequest {
+    repeated Occupation occupations = 1;
 }
 
 message NewOccupationsRequest {
@@ -15,10 +19,6 @@ message NewOccupationsRequest {
 
 message HideOccupationsRequest {
     repeated string ids = 1;
-}
-
-message HideOccupationsResponse {
-
 }
 
 message occupations {

@@ -49,7 +49,7 @@ func main() {
 
 	occupation.RegisterOccupationServiceHandler(
 		srv.Server(),
-		handler.NewOccupation(mongodb.NewOccupation(session, viper.GetString("mongodb.db"), "occupations"), sc),
+		handler.NewOccupation(mongodb.Occupation(session, viper.GetString("mongodb.db"), "occupations"), sc),
 	)
 
 	// init service
