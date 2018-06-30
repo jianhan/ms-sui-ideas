@@ -12,21 +12,60 @@ enum Pirority {
 }
 
 service StoryService {
-    rpc NewStories(stories) returns (stories) {}
-    rpc UpdateStories(stories) returns (stories) {}
+    rpc CreateStories(CreateStoriesRequest) returns (CreateStoriesResponse) {}
+    rpc UpdateStories(UpdateStoriesRequest) returns (UpdateStoriesResponse) {}
+    rpc HideStories(HideStoriesRequest) returns (HideStoriesResponse) {}
+    rpc ShowStories(ShowStoriesRequest) returns (ShowIdeasResponse) {}
     rpc DeleteStories(DeleteStoriesRequest) returns (DeleteStoriesResponse) {}
 }
 
-message DeleteStoriesRequest {
+message ShowStoriesRequest {
     repeated string ids = 1;
 }
 
-message DeleteStoriesResponse {
-
+message ShowIdeasResponse {
+    int64 matched = 1;
+    int64 modified = 2;
+    repeated Story stories = 3;
 }
 
-message stories {
+message HideStoriesRequest {
+    repeated string ids = 1;
+}
+
+message HideStoriesResponse {
+    int64 matched = 1;
+    int64 modified = 2;
+    repeated Story stories = 3;
+}
+
+message DeleteStoriesRequest {
+    repeated string id = 1;
+}
+
+message DeleteStoriesResponse {
+    int64 matched = 1;
+    int64 modified = 2;
+}
+
+message CreateStoriesRequest {
     repeated Story stories = 1;
+}
+
+message CreateStoriesResponse {
+    int64 matched = 1;
+    int64 modified = 2;
+    repeated Story stories = 3;
+}
+
+message UpdateStoriesRequest {
+    repeated Story stories = 1;
+}
+
+message UpdateStoriesResponse {
+    int64 matched = 1;
+    int64 modified = 2;
+    repeated Story stories = 3;
 }
 
 message Story {
@@ -46,9 +85,11 @@ message Story {
     uint64 order = 7;
     // @inject_tag: bson:"idea_id" valid:"required~Idea ID is required, uuidv4~Idea id must be a valid UUIDv4" conform:"trim"
     string idea_id = 8;
+    // @inject_tag: bson:"hidden"
+    bool hidden = 9;
     // @inject_tag: bson:"created_at"
-    google.protobuf.Timestamp created_at = 9;
+    google.protobuf.Timestamp created_at = 10;
     // @inject_tag: bson:"updated_at"
-    google.protobuf.Timestamp updated_at = 10;
+    google.protobuf.Timestamp updated_at = 11;
 }
 

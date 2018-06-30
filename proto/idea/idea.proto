@@ -9,14 +9,47 @@ import "github.com/jianhan/ms-sui-ideas/proto/occupation/occupation.proto";
 
 // Service declares all RPC calls for ideas related functions.
 service IdeaService {
-    rpc NewIdeas(ideas) returns (ideas) {}
-    rpc UpdateIdeas(ideas) returns (ideas) {}
+    rpc CreateIdeas(CreateIdeasRequest) returns (CreateIdeasResponse) {}
+    rpc UpdateIdeas(UpdateIdeasRequest) returns (UpdateIdeasResponse) {}
     rpc DeleteIdeas(DeleteIdeasRequest) returns (DeleteIdeasResponse) {}
-    rpc HideIdeas(HideIdeasRequest) returns (ideas) {}
+    rpc HideIdeas(HideIdeasRequest) returns (HideIdeasResponse) {}
+    rpc ShowIdeas(ShowIdeasRequest) returns (ShowIdeasResponse) {}
 }
 
-message ideas {
+message ShowIdeasRequest {
+    repeated string ids = 1;
+}
+
+message ShowIdeasResponse {
+    int64 matched = 1;
+    int64 modified = 2;
+    repeated Idea ideas = 3;
+}
+
+message CreateIdeasRequest {
     repeated Idea ideas = 1;
+}
+
+message CreateIdeasResponse {
+    int64 matched = 1;
+    int64 modified = 2;
+    repeated Idea ideas = 3;
+}
+
+message UpdateIdeasRequest {
+    repeated Idea ideas = 1;
+}
+
+message UpdateIdeasResponse {
+    int64 matched = 1;
+    int64 modified = 2;
+    repeated Idea ideas = 3;
+}
+
+message HideIdeasResponse {
+    int64 matched = 1;
+    int64 modified = 2;
+    repeated Idea ideas = 3;
 }
 
 message DeleteIdeasRequest {
@@ -24,7 +57,12 @@ message DeleteIdeasRequest {
 }
 
 message DeleteIdeasResponse {
+    int64 matched = 1;
+    int64 modified = 2;
+}
 
+message ideas {
+    repeated Idea ideas = 1;
 }
 
 message HideIdeasRequest {
