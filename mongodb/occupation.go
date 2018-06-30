@@ -30,22 +30,22 @@ func Occupation(session *mgo.Session, db, collection string) db.Occupation {
 	}
 }
 
-func (d *occupation) NewOccupations(occupations []*poccupation.Occupation) ([]*poccupation.Occupation, error) {
+func (d *occupation) NewOccupations(occupations []*poccupation.Occupation) (int, int, []*poccupation.Occupation, error) {
 	retVal := []*poccupation.Occupation{}
 	bulk := d.session.DB(d.db).C(d.collection).Bulk()
 	for _, occupation := range occupations {
 		bulk.Insert(occupation)
 		retVal = append(retVal, occupation)
 	}
-	_, err := bulk.Run()
+	matchResult, err := bulk.Run()
 	if err != nil {
-		return nil, err
+		return 0, 0, nil, err
 	}
 
-	return retVal, nil
+	return matchResult.Matched, matchResult.Modified, retVal, nil
 }
 
-func (d *occupation) UpdateOccupations(occupations []*poccupation.Occupation) ([]*poccupation.Occupation, error) {
+func (d *occupation) UpdateOccupations(occupations []*poccupation.Occupation) (int, int, []*poccupation.Occupation, error) {
 	retVal := []*poccupation.Occupation{}
 	bulk := d.session.DB(d.db).C(d.collection).Bulk()
 	for _, occupation := range occupations {
@@ -55,14 +55,42 @@ func (d *occupation) UpdateOccupations(occupations []*poccupation.Occupation) ([
 		)
 		retVal = append(retVal, occupation)
 	}
-	_, err := bulk.Run()
+	matchResult, err := bulk.Run()
 	if err != nil {
-		return nil, err
+		return 0, 0, nil, err
 	}
 
-	return retVal, nil
+	return matchResult.Matched, matchResult.Modified, retVal, nil
 }
 
-func (d *occupation) HideOccupations(ids []string) error {
-	return nil
+func (d *occupation) HideOccupations(ids []string) (int, int, error) {
+	bulk := d.session.DB(d.db).C(d.collection).Bulk()
+	for _, id := range ids {
+		bulk.Update(
+			bson.M{"_id": id},
+			bson.M{"hidden": true},
+		)
+	}
+	matchResult, err := bulk.Run()
+	if err != nil {
+		return matchResult.Matched, matchResult.Modified, err
+	}
+
+	return 0, 0, nil
+}
+
+func (d *occupation) ShowOccupations(ids []string) (int, int, error) {
+	bulk := d.session.DB(d.db).C(d.collection).Bulk()
+	for _, id := range ids {
+		bulk.Update(
+			bson.M{"_id": id},
+			bson.M{"hidden": false},
+		)
+	}
+	matchResult, err := bulk.Run()
+	if err != nil {
+		return matchResult.Matched, matchResult.Modified, err
+	}
+
+	return 0, 0, nil
 }

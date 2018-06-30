@@ -7,6 +7,11 @@ service OccupationService {
     rpc NewOccupations(NewOccupationsRequest) returns (occupations) {}
     rpc UpdateOccupations(UpdateOccupationsRequest) returns (occupations) {}
     rpc HideOccupations(HideOccupationsRequest) returns (occupations) {}
+    rpc ShowOccupations(ShowOccupationsRequest) returns (occupations) {}
+}
+
+message ShowOccupationsRequest {
+    repeated string ids = 1;
 }
 
 message UpdateOccupationsRequest {

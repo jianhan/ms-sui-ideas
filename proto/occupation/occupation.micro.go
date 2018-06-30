@@ -8,6 +8,7 @@ It is generated from these files:
 	proto/occupation/occupation.proto
 
 It has these top-level messages:
+	ShowOccupationsRequest
 	UpdateOccupationsRequest
 	NewOccupationsRequest
 	HideOccupationsRequest
@@ -49,6 +50,7 @@ type OccupationServiceClient interface {
 	NewOccupations(ctx context.Context, in *NewOccupationsRequest, opts ...client.CallOption) (*Occupations, error)
 	UpdateOccupations(ctx context.Context, in *UpdateOccupationsRequest, opts ...client.CallOption) (*Occupations, error)
 	HideOccupations(ctx context.Context, in *HideOccupationsRequest, opts ...client.CallOption) (*Occupations, error)
+	ShowOccupations(ctx context.Context, in *ShowOccupationsRequest, opts ...client.CallOption) (*Occupations, error)
 }
 
 type occupationServiceClient struct {
@@ -99,12 +101,23 @@ func (c *occupationServiceClient) HideOccupations(ctx context.Context, in *HideO
 	return out, nil
 }
 
+func (c *occupationServiceClient) ShowOccupations(ctx context.Context, in *ShowOccupationsRequest, opts ...client.CallOption) (*Occupations, error) {
+	req := c.c.NewRequest(c.serviceName, "OccupationService.ShowOccupations", in)
+	out := new(Occupations)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for OccupationService service
 
 type OccupationServiceHandler interface {
 	NewOccupations(context.Context, *NewOccupationsRequest, *Occupations) error
 	UpdateOccupations(context.Context, *UpdateOccupationsRequest, *Occupations) error
 	HideOccupations(context.Context, *HideOccupationsRequest, *Occupations) error
+	ShowOccupations(context.Context, *ShowOccupationsRequest, *Occupations) error
 }
 
 func RegisterOccupationServiceHandler(s server.Server, hdlr OccupationServiceHandler, opts ...server.HandlerOption) {
@@ -125,4 +138,8 @@ func (h *OccupationService) UpdateOccupations(ctx context.Context, in *UpdateOcc
 
 func (h *OccupationService) HideOccupations(ctx context.Context, in *HideOccupationsRequest, out *Occupations) error {
 	return h.OccupationServiceHandler.HideOccupations(ctx, in, out)
+}
+
+func (h *OccupationService) ShowOccupations(ctx context.Context, in *ShowOccupationsRequest, out *Occupations) error {
+	return h.OccupationServiceHandler.ShowOccupations(ctx, in, out)
 }
