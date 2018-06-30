@@ -40,12 +40,12 @@ message HideStoriesResponse {
 }
 
 message DeleteStoriesRequest {
-    repeated string id = 1;
+    repeated string ids = 1;
 }
 
 message DeleteStoriesResponse {
     int64 matched = 1;
-    int64 modified = 2;
+    int64 removed = 2;
 }
 
 message CreateStoriesRequest {

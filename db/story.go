@@ -5,7 +5,9 @@ import (
 )
 
 type Story interface {
-	NewStories(stories []*story.Story) (*story.Story, error)
-	UpdateStories(stories []*story.Story) ([]*story.Story, error)
-	DeleteStories(ids []string) error
+	CreateStories(stories []*story.Story) (int64, int64, []*story.Story, error)
+	UpdateStories(stories []*story.Story) (int64, int64, []*story.Story, error)
+	HideStories(ids []string) (int64, int64, error)
+	ShowStories(ids []string) (int64, int64, error)
+	DeleteStories(ids []string) (int64, int64, error)
 }
