@@ -4,10 +4,32 @@ option go_package="occupation";
 import "google/protobuf/timestamp.proto";
 
 service OccupationService {
-    rpc NewOccupations(NewOccupationsRequest) returns (occupations) {}
-    rpc UpdateOccupations(UpdateOccupationsRequest) returns (occupations) {}
-    rpc HideOccupations(HideOccupationsRequest) returns (occupations) {}
-    rpc ShowOccupations(ShowOccupationsRequest) returns (occupations) {}
+    rpc CreateOccupations(CreateOccupationsRequest) returns (CreateOccupationsResponse) {}
+    rpc UpdateOccupations(UpdateOccupationsRequest) returns (UpdateOccupationsResponse) {}
+    rpc HideOccupations(HideOccupationsRequest) returns (HideOccupationsResponse) {}
+    rpc ShowOccupations(ShowOccupationsRequest) returns (ShowOccupationsResponse) {}
+}
+
+message ShowOccupationsResponse {
+    int64 matched = 1;
+    int64 modified = 2;
+}
+
+message HideOccupationsResponse {
+    int64 matched = 1;
+    int64 modified = 2;
+}
+
+message UpdateOccupationsResponse {
+    int64 matched = 1;
+    int64 modified = 2;
+    repeated Occupation occupations = 3;
+}
+
+message CreateOccupationsResponse {
+    int64 matched = 1;
+    int64 modified = 2;
+    repeated Occupation occupations = 3;
 }
 
 message ShowOccupationsRequest {
@@ -18,7 +40,7 @@ message UpdateOccupationsRequest {
     repeated Occupation occupations = 1;
 }
 
-message NewOccupationsRequest {
+message CreateOccupationsRequest {
     repeated Occupation occupations = 1;
 }
 

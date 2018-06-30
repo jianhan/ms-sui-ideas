@@ -8,9 +8,13 @@ It is generated from these files:
 	proto/occupation/occupation.proto
 
 It has these top-level messages:
+	ShowOccupationsResponse
+	HideOccupationsResponse
+	UpdateOccupationsResponse
+	CreateOccupationsResponse
 	ShowOccupationsRequest
 	UpdateOccupationsRequest
-	NewOccupationsRequest
+	CreateOccupationsRequest
 	HideOccupationsRequest
 	Occupations
 	Occupation
@@ -47,10 +51,10 @@ var _ server.Option
 // Client API for OccupationService service
 
 type OccupationServiceClient interface {
-	NewOccupations(ctx context.Context, in *NewOccupationsRequest, opts ...client.CallOption) (*Occupations, error)
-	UpdateOccupations(ctx context.Context, in *UpdateOccupationsRequest, opts ...client.CallOption) (*Occupations, error)
-	HideOccupations(ctx context.Context, in *HideOccupationsRequest, opts ...client.CallOption) (*Occupations, error)
-	ShowOccupations(ctx context.Context, in *ShowOccupationsRequest, opts ...client.CallOption) (*Occupations, error)
+	CreateOccupations(ctx context.Context, in *CreateOccupationsRequest, opts ...client.CallOption) (*CreateOccupationsResponse, error)
+	UpdateOccupations(ctx context.Context, in *UpdateOccupationsRequest, opts ...client.CallOption) (*UpdateOccupationsResponse, error)
+	HideOccupations(ctx context.Context, in *HideOccupationsRequest, opts ...client.CallOption) (*HideOccupationsResponse, error)
+	ShowOccupations(ctx context.Context, in *ShowOccupationsRequest, opts ...client.CallOption) (*ShowOccupationsResponse, error)
 }
 
 type occupationServiceClient struct {
@@ -71,9 +75,9 @@ func NewOccupationServiceClient(serviceName string, c client.Client) OccupationS
 	}
 }
 
-func (c *occupationServiceClient) NewOccupations(ctx context.Context, in *NewOccupationsRequest, opts ...client.CallOption) (*Occupations, error) {
-	req := c.c.NewRequest(c.serviceName, "OccupationService.NewOccupations", in)
-	out := new(Occupations)
+func (c *occupationServiceClient) CreateOccupations(ctx context.Context, in *CreateOccupationsRequest, opts ...client.CallOption) (*CreateOccupationsResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "OccupationService.CreateOccupations", in)
+	out := new(CreateOccupationsResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -81,9 +85,9 @@ func (c *occupationServiceClient) NewOccupations(ctx context.Context, in *NewOcc
 	return out, nil
 }
 
-func (c *occupationServiceClient) UpdateOccupations(ctx context.Context, in *UpdateOccupationsRequest, opts ...client.CallOption) (*Occupations, error) {
+func (c *occupationServiceClient) UpdateOccupations(ctx context.Context, in *UpdateOccupationsRequest, opts ...client.CallOption) (*UpdateOccupationsResponse, error) {
 	req := c.c.NewRequest(c.serviceName, "OccupationService.UpdateOccupations", in)
-	out := new(Occupations)
+	out := new(UpdateOccupationsResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -91,9 +95,9 @@ func (c *occupationServiceClient) UpdateOccupations(ctx context.Context, in *Upd
 	return out, nil
 }
 
-func (c *occupationServiceClient) HideOccupations(ctx context.Context, in *HideOccupationsRequest, opts ...client.CallOption) (*Occupations, error) {
+func (c *occupationServiceClient) HideOccupations(ctx context.Context, in *HideOccupationsRequest, opts ...client.CallOption) (*HideOccupationsResponse, error) {
 	req := c.c.NewRequest(c.serviceName, "OccupationService.HideOccupations", in)
-	out := new(Occupations)
+	out := new(HideOccupationsResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -101,9 +105,9 @@ func (c *occupationServiceClient) HideOccupations(ctx context.Context, in *HideO
 	return out, nil
 }
 
-func (c *occupationServiceClient) ShowOccupations(ctx context.Context, in *ShowOccupationsRequest, opts ...client.CallOption) (*Occupations, error) {
+func (c *occupationServiceClient) ShowOccupations(ctx context.Context, in *ShowOccupationsRequest, opts ...client.CallOption) (*ShowOccupationsResponse, error) {
 	req := c.c.NewRequest(c.serviceName, "OccupationService.ShowOccupations", in)
-	out := new(Occupations)
+	out := new(ShowOccupationsResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -114,10 +118,10 @@ func (c *occupationServiceClient) ShowOccupations(ctx context.Context, in *ShowO
 // Server API for OccupationService service
 
 type OccupationServiceHandler interface {
-	NewOccupations(context.Context, *NewOccupationsRequest, *Occupations) error
-	UpdateOccupations(context.Context, *UpdateOccupationsRequest, *Occupations) error
-	HideOccupations(context.Context, *HideOccupationsRequest, *Occupations) error
-	ShowOccupations(context.Context, *ShowOccupationsRequest, *Occupations) error
+	CreateOccupations(context.Context, *CreateOccupationsRequest, *CreateOccupationsResponse) error
+	UpdateOccupations(context.Context, *UpdateOccupationsRequest, *UpdateOccupationsResponse) error
+	HideOccupations(context.Context, *HideOccupationsRequest, *HideOccupationsResponse) error
+	ShowOccupations(context.Context, *ShowOccupationsRequest, *ShowOccupationsResponse) error
 }
 
 func RegisterOccupationServiceHandler(s server.Server, hdlr OccupationServiceHandler, opts ...server.HandlerOption) {
@@ -128,18 +132,18 @@ type OccupationService struct {
 	OccupationServiceHandler
 }
 
-func (h *OccupationService) NewOccupations(ctx context.Context, in *NewOccupationsRequest, out *Occupations) error {
-	return h.OccupationServiceHandler.NewOccupations(ctx, in, out)
+func (h *OccupationService) CreateOccupations(ctx context.Context, in *CreateOccupationsRequest, out *CreateOccupationsResponse) error {
+	return h.OccupationServiceHandler.CreateOccupations(ctx, in, out)
 }
 
-func (h *OccupationService) UpdateOccupations(ctx context.Context, in *UpdateOccupationsRequest, out *Occupations) error {
+func (h *OccupationService) UpdateOccupations(ctx context.Context, in *UpdateOccupationsRequest, out *UpdateOccupationsResponse) error {
 	return h.OccupationServiceHandler.UpdateOccupations(ctx, in, out)
 }
 
-func (h *OccupationService) HideOccupations(ctx context.Context, in *HideOccupationsRequest, out *Occupations) error {
+func (h *OccupationService) HideOccupations(ctx context.Context, in *HideOccupationsRequest, out *HideOccupationsResponse) error {
 	return h.OccupationServiceHandler.HideOccupations(ctx, in, out)
 }
 
-func (h *OccupationService) ShowOccupations(ctx context.Context, in *ShowOccupationsRequest, out *Occupations) error {
+func (h *OccupationService) ShowOccupations(ctx context.Context, in *ShowOccupationsRequest, out *ShowOccupationsResponse) error {
 	return h.OccupationServiceHandler.ShowOccupations(ctx, in, out)
 }

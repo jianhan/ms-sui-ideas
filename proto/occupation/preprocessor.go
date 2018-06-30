@@ -5,7 +5,7 @@ import (
 	"github.com/leebenson/conform"
 )
 
-func (r *NewOccupationsRequest) Preprocess() error {
+func (r *CreateOccupationsRequest) Preprocess() error {
 	for k := range r.Occupations {
 		conform.Strings(r.Occupations[k])
 		if err := proto.Fix(r.Occupations[k]); err != nil {

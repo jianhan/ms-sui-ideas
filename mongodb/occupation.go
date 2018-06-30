@@ -30,7 +30,7 @@ func Occupation(session *mgo.Session, db, collection string) db.Occupation {
 	}
 }
 
-func (d *occupation) NewOccupations(occupations []*poccupation.Occupation) (int, int, []*poccupation.Occupation, error) {
+func (d *occupation) CreateOccupations(occupations []*poccupation.Occupation) (int64, int64, []*poccupation.Occupation, error) {
 	retVal := []*poccupation.Occupation{}
 	bulk := d.session.DB(d.db).C(d.collection).Bulk()
 	for _, occupation := range occupations {
@@ -42,10 +42,10 @@ func (d *occupation) NewOccupations(occupations []*poccupation.Occupation) (int,
 		return 0, 0, nil, err
 	}
 
-	return matchResult.Matched, matchResult.Modified, retVal, nil
+	return int64(matchResult.Matched), int64(matchResult.Modified), retVal, nil
 }
 
-func (d *occupation) UpdateOccupations(occupations []*poccupation.Occupation) (int, int, []*poccupation.Occupation, error) {
+func (d *occupation) UpdateOccupations(occupations []*poccupation.Occupation) (int64, int64, []*poccupation.Occupation, error) {
 	retVal := []*poccupation.Occupation{}
 	bulk := d.session.DB(d.db).C(d.collection).Bulk()
 	for _, occupation := range occupations {
@@ -60,10 +60,10 @@ func (d *occupation) UpdateOccupations(occupations []*poccupation.Occupation) (i
 		return 0, 0, nil, err
 	}
 
-	return matchResult.Matched, matchResult.Modified, retVal, nil
+	return int64(matchResult.Matched), int64(matchResult.Modified), retVal, nil
 }
 
-func (d *occupation) HideOccupations(ids []string) (int, int, error) {
+func (d *occupation) HideOccupations(ids []string) (int64, int64, error) {
 	bulk := d.session.DB(d.db).C(d.collection).Bulk()
 	for _, id := range ids {
 		bulk.Update(
@@ -73,13 +73,13 @@ func (d *occupation) HideOccupations(ids []string) (int, int, error) {
 	}
 	matchResult, err := bulk.Run()
 	if err != nil {
-		return matchResult.Matched, matchResult.Modified, err
+		return int64(matchResult.Matched), int64(matchResult.Modified), err
 	}
 
 	return 0, 0, nil
 }
 
-func (d *occupation) ShowOccupations(ids []string) (int, int, error) {
+func (d *occupation) ShowOccupations(ids []string) (int64, int64, error) {
 	bulk := d.session.DB(d.db).C(d.collection).Bulk()
 	for _, id := range ids {
 		bulk.Update(
@@ -89,7 +89,7 @@ func (d *occupation) ShowOccupations(ids []string) (int, int, error) {
 	}
 	matchResult, err := bulk.Run()
 	if err != nil {
-		return matchResult.Matched, matchResult.Modified, err
+		return int64(matchResult.Matched), int64(matchResult.Modified), err
 	}
 
 	return 0, 0, nil
