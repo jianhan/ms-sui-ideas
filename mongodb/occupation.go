@@ -73,10 +73,10 @@ func (d *occupation) HideOccupations(ids []string) (int64, int64, error) {
 	}
 	matchResult, err := bulk.Run()
 	if err != nil {
-		return int64(matchResult.Matched), int64(matchResult.Modified), err
+		return 0, 0, err
 	}
 
-	return 0, 0, nil
+	return int64(matchResult.Matched), int64(matchResult.Modified), nil
 }
 
 func (d *occupation) ShowOccupations(ids []string) (int64, int64, error) {
@@ -89,8 +89,8 @@ func (d *occupation) ShowOccupations(ids []string) (int64, int64, error) {
 	}
 	matchResult, err := bulk.Run()
 	if err != nil {
-		return int64(matchResult.Matched), int64(matchResult.Modified), err
+		return 0, 0, err
 	}
 
-	return 0, 0, nil
+	return int64(matchResult.Matched), int64(matchResult.Modified), nil
 }
