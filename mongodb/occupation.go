@@ -68,7 +68,7 @@ func (d *occupation) HideOccupations(ids []string) (int64, int64, error) {
 	for _, id := range ids {
 		bulk.Update(
 			bson.M{"_id": id},
-			bson.M{"hidden": true},
+			bson.M{"$set": bson.M{"hidden": true}},
 		)
 	}
 	matchResult, err := bulk.Run()
@@ -84,7 +84,7 @@ func (d *occupation) ShowOccupations(ids []string) (int64, int64, error) {
 	for _, id := range ids {
 		bulk.Update(
 			bson.M{"_id": id},
-			bson.M{"hidden": false},
+			bson.M{"$set": bson.M{"hidden": false}},
 		)
 	}
 	matchResult, err := bulk.Run()
