@@ -31,7 +31,7 @@ func Occupation(session *mgo.Session, db, collection string) db.Occupation {
 }
 
 func (d *occupation) CreateOccupations(occupations []*poccupation.Occupation) (int64, int64, []*poccupation.Occupation, error) {
-	retVal := []*poccupation.Occupation{}
+	var retVal []*poccupation.Occupation
 	bulk := d.session.DB(d.db).C(d.collection).Bulk()
 	for _, occupation := range occupations {
 		bulk.Insert(occupation)
@@ -46,7 +46,7 @@ func (d *occupation) CreateOccupations(occupations []*poccupation.Occupation) (i
 }
 
 func (d *occupation) UpdateOccupations(occupations []*poccupation.Occupation) (int64, int64, []*poccupation.Occupation, error) {
-	retVal := []*poccupation.Occupation{}
+	var retVal []*poccupation.Occupation
 	bulk := d.session.DB(d.db).C(d.collection).Bulk()
 	for _, occupation := range occupations {
 		bulk.Update(
