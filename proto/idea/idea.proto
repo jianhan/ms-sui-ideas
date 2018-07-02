@@ -3,18 +3,105 @@ package go.micro.srv.ideas;
 option go_package="idea";
 
 import "google/protobuf/timestamp.proto";
-import "github.com/jianhan/ms-sui-ideas/proto/rating/rating.proto";
-import "github.com/jianhan/ms-sui-ideas/proto/story/story.proto";
 import "github.com/jianhan/ms-sui-ideas/proto/occupation/occupation.proto";
+
+// AppType defines application type
+enum AppType {
+    WEB = 0;
+    MOBILE = 1;
+    DESKTOP = 2;
+    OTHER=3;
+}
+
+// Pirority defines a set of pirorities
+enum Pirority {
+    UNSET=0;
+    NICE_TO_HAVE = 1;
+    SHOULD_HAVE = 2;
+    MUST_HAVE = 3;
+}
+
+message Idea {
+    // @inject_tag: bson:"_id" valid:"required~ID is required, uuidv4~ID must be a valid UUIDv4" conform:"trim"
+    string ID = 1;
+    // @inject_tag: bson:"name" valid:"required~Name is required" conform:"trim"
+    string name = 2;
+    // @inject_tag: bson:"slug" valid:"required~Slug is required" conform:"trim"
+    string slug = 3;
+    // @inject_tag: bson:"description" valid:"Description is required" conform:"trim"
+    string description = 4;
+    // @inject_tag: bson:"hidden"
+    bool hidden = 5;
+    // @inject_tag: bson:"app_type" valid:"App type is required"
+    repeated AppType type = 6;
+    // @inject_tag: bson:"min_age"
+    uint64 min_age = 7;
+    // @inject_tag: bson:"max_age"
+    uint64 max_age = 8;
+    // @inject_tag: bson:"rating"
+    repeated Rating rating = 9;
+    // @inject_tag: bson:"stories"
+    repeated Story stories = 10;
+    // @inject_tag: bson:"occupations"
+    repeated Occupation occupations = 11;
+    // @inject_tag: bson:"created_at"
+    google.protobuf.Timestamp created_at = 12;
+    // @inject_tag: bson:"updated_at"
+    google.protobuf.Timestamp updated_at = 13;
+}
+
+message Story {
+    // @inject_tag: bson:"title" valid:"required~Title is required" conform:"trim"
+    string title = 1;
+    // @inject_tag: bson:"pirority" valid:"required~Pirority is required"
+    Pirority pirority = 2;
+    // @inject_tag: bson:"role" valid:"required~Who is required" conform:"trim"
+    string who = 3;
+    // @inject_tag: bson:"action" valid:"required~What is required" conform:"trim"
+    string what = 4;
+    // @inject_tag: bson:"goal" valid:"required~Goal is required" conform:"trim"
+    string goal = 5;
+    // @inject_tag: bson:"order"
+    uint64 order = 6;
+    // @inject_tag: bson:"hidden"
+    bool hidden = 7;
+    // @inject_tag: bson:"created_at"
+    google.protobuf.Timestamp created_at = 8;
+    // @inject_tag: bson:"updated_at"
+    google.protobuf.Timestamp updated_at = 9;
+}
 
 // Service declares all RPC calls for ideas related functions.
 service IdeaService {
+    rpc ListIdeas(ListIdeasRequest) returns (ListIdeasResponse) {}
     rpc CreateIdeas(CreateIdeasRequest) returns (CreateIdeasResponse) {}
     rpc UpdateIdeas(UpdateIdeasRequest) returns (UpdateIdeasResponse) {}
     rpc DeleteIdeas(DeleteIdeasRequest) returns (DeleteIdeasResponse) {}
     rpc HideIdeas(HideIdeasRequest) returns (HideIdeasResponse) {}
     rpc ShowIdeas(ShowIdeasRequest) returns (ShowIdeasResponse) {}
+
 }
+
+message IdeaFilter {
+    repeated string ids = 1;
+    repeated string names = 2;
+    bool hidden = 3;
+    repeated AppType app_types = 4;
+    uint64 min_age = 5;
+    uint64 max_age = 6;
+    float min_rating = 7;
+    float max_rating = 8;
+    repeated Occupation occupations = 9;
+}
+
+message ListIdeasRequest {
+    IdeaFilter filter = 1;
+}
+
+message ListIdeasResponse {
+    repeated Idea ideas = 1;
+}
+
 
 message ShowIdeasRequest {
     repeated string ids = 1;
@@ -69,39 +156,6 @@ message HideIdeasRequest {
     repeated string ids = 1;
 }
 
-// AppType defines application type
-enum AppType {
-    WEB = 0;
-    MOBILE = 1;
-    DESKTOP = 2;
-    OTHER=3;
-}
 
-message Idea {
-    // @inject_tag: bson:"_id" valid:"required~ID is required, uuidv4~ID must be a valid UUIDv4" conform:"trim"
-    string ID = 1;
-    // @inject_tag: bson:"name" valid:"required~Name is required" conform:"trim"
-    string name = 2;
-    // @inject_tag: bson:"slug" valid:"required~Slug is required" conform:"trim"
-    string slug = 3;
-    // @inject_tag: bson:"description" valid:"Description is required" conform:"trim"
-    string description = 4;
-    // @inject_tag: bson:"hidden"
-    bool hidden = 5;
-    // @inject_tag: bson:"app_type" valid:"App type is required"
-    repeated AppType type = 6;
-    // @inject_tag: bson:"min_age"
-    uint64 min_age = 7;
-    // @inject_tag: bson:"max_age"
-    uint64 max_age = 8;
-    // @inject_tag: bson:"rating"
-    repeated Rating rating = 9;
-    // @inject_tag: bson:"stories"
-    repeated Story stories = 10;
-    // @inject_tag: bson:"occupations"
-    repeated Occupation occupations = 11;
-    // @inject_tag: bson:"created_at"
-    google.protobuf.Timestamp created_at = 12;
-    // @inject_tag: bson:"updated_at"
-    google.protobuf.Timestamp updated_at = 13;
-}
+
+
