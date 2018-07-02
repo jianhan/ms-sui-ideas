@@ -98,3 +98,33 @@ func (d *idea) ListIdeas(filter pidea.IdeaFilter) ([]*pidea.Idea, error) {
 
 	return r, nil
 }
+
+func (d *idea) CreateIdeas(ideas []*pidea.Idea) (int64, int64, []*pidea.Idea, error) {
+	bulk := d.session.DB(d.db).C(d.collection).Bulk()
+	var retVal []*pidea.Idea
+	for _, v := range ideas {
+		bulk.Insert(v)
+		retVal = append(retVal, v)
+	}
+	r, err := bulk.Run()
+	if err != nil {
+		return 0, 0, nil, err
+	}
+
+	return int64(r.Modified), int64(r.Matched), retVal, nil
+}
+
+func (d *idea) UpdateIdeas(ideas []*pidea.Idea) (int64, int64, []*pidea.Idea, error) {
+	bulk := d.session.DB(d.db).C(d.collection).Bulk()
+	var retVal []*pidea.Idea
+	for _, v := range ideas {
+		bulk.Update(bson.M{"_id": v.ID}, v)
+		retVal = append(retVal, v)
+	}
+	r, err := bulk.Run()
+	if err != nil {
+		return 0, 0, nil, err
+	}
+
+	return int64(r.Modified), int64(r.Matched), retVal, nil
+}
