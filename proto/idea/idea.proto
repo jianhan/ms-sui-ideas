@@ -96,7 +96,8 @@ message IdeaFilter {
     repeated Occupation occupations = 9;
     uint64 current_page = 10;
     uint64 per_page = 11;
-    repeated string queries = 12;
+    string query = 12;
+    repeated string sorts = 13;
 }
 
 // Service declares all RPC calls for ideas related functions.
