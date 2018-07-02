@@ -12,7 +12,6 @@ It has these top-level messages:
 	Story
 	Rating
 	IdeaFilter
-	ListIdeasRequest
 	ListIdeasResponse
 	ShowIdeasRequest
 	ShowIdeasResponse
@@ -20,10 +19,7 @@ It has these top-level messages:
 	CreateIdeasResponse
 	UpdateIdeasResponse
 	HideIdeasResponse
-	DeleteIdeasRequest
 	DeleteIdeasResponse
-	Ideas
-	HideIdeasRequest
 */
 package idea
 
@@ -58,12 +54,12 @@ var _ server.Option
 // Client API for IdeaService service
 
 type IdeaServiceClient interface {
-	ListIdeas(ctx context.Context, in *ListIdeasRequest, opts ...client.CallOption) (*ListIdeasResponse, error)
+	ListIdeas(ctx context.Context, in *IdeaFilter, opts ...client.CallOption) (*ListIdeasResponse, error)
 	CreateIdeas(ctx context.Context, in *UpsertIdeasRequest, opts ...client.CallOption) (*CreateIdeasResponse, error)
 	UpdateIdeas(ctx context.Context, in *UpsertIdeasRequest, opts ...client.CallOption) (*UpdateIdeasResponse, error)
-	DeleteIdeas(ctx context.Context, in *DeleteIdeasRequest, opts ...client.CallOption) (*DeleteIdeasResponse, error)
-	HideIdeas(ctx context.Context, in *HideIdeasRequest, opts ...client.CallOption) (*HideIdeasResponse, error)
-	ShowIdeas(ctx context.Context, in *ShowIdeasRequest, opts ...client.CallOption) (*ShowIdeasResponse, error)
+	DeleteIdeas(ctx context.Context, in *IdeaFilter, opts ...client.CallOption) (*DeleteIdeasResponse, error)
+	HideIdeas(ctx context.Context, in *IdeaFilter, opts ...client.CallOption) (*HideIdeasResponse, error)
+	ShowIdeas(ctx context.Context, in *IdeaFilter, opts ...client.CallOption) (*ShowIdeasResponse, error)
 }
 
 type ideaServiceClient struct {
@@ -84,7 +80,7 @@ func NewIdeaServiceClient(serviceName string, c client.Client) IdeaServiceClient
 	}
 }
 
-func (c *ideaServiceClient) ListIdeas(ctx context.Context, in *ListIdeasRequest, opts ...client.CallOption) (*ListIdeasResponse, error) {
+func (c *ideaServiceClient) ListIdeas(ctx context.Context, in *IdeaFilter, opts ...client.CallOption) (*ListIdeasResponse, error) {
 	req := c.c.NewRequest(c.serviceName, "IdeaService.ListIdeas", in)
 	out := new(ListIdeasResponse)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -114,7 +110,7 @@ func (c *ideaServiceClient) UpdateIdeas(ctx context.Context, in *UpsertIdeasRequ
 	return out, nil
 }
 
-func (c *ideaServiceClient) DeleteIdeas(ctx context.Context, in *DeleteIdeasRequest, opts ...client.CallOption) (*DeleteIdeasResponse, error) {
+func (c *ideaServiceClient) DeleteIdeas(ctx context.Context, in *IdeaFilter, opts ...client.CallOption) (*DeleteIdeasResponse, error) {
 	req := c.c.NewRequest(c.serviceName, "IdeaService.DeleteIdeas", in)
 	out := new(DeleteIdeasResponse)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -124,7 +120,7 @@ func (c *ideaServiceClient) DeleteIdeas(ctx context.Context, in *DeleteIdeasRequ
 	return out, nil
 }
 
-func (c *ideaServiceClient) HideIdeas(ctx context.Context, in *HideIdeasRequest, opts ...client.CallOption) (*HideIdeasResponse, error) {
+func (c *ideaServiceClient) HideIdeas(ctx context.Context, in *IdeaFilter, opts ...client.CallOption) (*HideIdeasResponse, error) {
 	req := c.c.NewRequest(c.serviceName, "IdeaService.HideIdeas", in)
 	out := new(HideIdeasResponse)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -134,7 +130,7 @@ func (c *ideaServiceClient) HideIdeas(ctx context.Context, in *HideIdeasRequest,
 	return out, nil
 }
 
-func (c *ideaServiceClient) ShowIdeas(ctx context.Context, in *ShowIdeasRequest, opts ...client.CallOption) (*ShowIdeasResponse, error) {
+func (c *ideaServiceClient) ShowIdeas(ctx context.Context, in *IdeaFilter, opts ...client.CallOption) (*ShowIdeasResponse, error) {
 	req := c.c.NewRequest(c.serviceName, "IdeaService.ShowIdeas", in)
 	out := new(ShowIdeasResponse)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -147,12 +143,12 @@ func (c *ideaServiceClient) ShowIdeas(ctx context.Context, in *ShowIdeasRequest,
 // Server API for IdeaService service
 
 type IdeaServiceHandler interface {
-	ListIdeas(context.Context, *ListIdeasRequest, *ListIdeasResponse) error
+	ListIdeas(context.Context, *IdeaFilter, *ListIdeasResponse) error
 	CreateIdeas(context.Context, *UpsertIdeasRequest, *CreateIdeasResponse) error
 	UpdateIdeas(context.Context, *UpsertIdeasRequest, *UpdateIdeasResponse) error
-	DeleteIdeas(context.Context, *DeleteIdeasRequest, *DeleteIdeasResponse) error
-	HideIdeas(context.Context, *HideIdeasRequest, *HideIdeasResponse) error
-	ShowIdeas(context.Context, *ShowIdeasRequest, *ShowIdeasResponse) error
+	DeleteIdeas(context.Context, *IdeaFilter, *DeleteIdeasResponse) error
+	HideIdeas(context.Context, *IdeaFilter, *HideIdeasResponse) error
+	ShowIdeas(context.Context, *IdeaFilter, *ShowIdeasResponse) error
 }
 
 func RegisterIdeaServiceHandler(s server.Server, hdlr IdeaServiceHandler, opts ...server.HandlerOption) {
@@ -163,7 +159,7 @@ type IdeaService struct {
 	IdeaServiceHandler
 }
 
-func (h *IdeaService) ListIdeas(ctx context.Context, in *ListIdeasRequest, out *ListIdeasResponse) error {
+func (h *IdeaService) ListIdeas(ctx context.Context, in *IdeaFilter, out *ListIdeasResponse) error {
 	return h.IdeaServiceHandler.ListIdeas(ctx, in, out)
 }
 
@@ -175,14 +171,14 @@ func (h *IdeaService) UpdateIdeas(ctx context.Context, in *UpsertIdeasRequest, o
 	return h.IdeaServiceHandler.UpdateIdeas(ctx, in, out)
 }
 
-func (h *IdeaService) DeleteIdeas(ctx context.Context, in *DeleteIdeasRequest, out *DeleteIdeasResponse) error {
+func (h *IdeaService) DeleteIdeas(ctx context.Context, in *IdeaFilter, out *DeleteIdeasResponse) error {
 	return h.IdeaServiceHandler.DeleteIdeas(ctx, in, out)
 }
 
-func (h *IdeaService) HideIdeas(ctx context.Context, in *HideIdeasRequest, out *HideIdeasResponse) error {
+func (h *IdeaService) HideIdeas(ctx context.Context, in *IdeaFilter, out *HideIdeasResponse) error {
 	return h.IdeaServiceHandler.HideIdeas(ctx, in, out)
 }
 
-func (h *IdeaService) ShowIdeas(ctx context.Context, in *ShowIdeasRequest, out *ShowIdeasResponse) error {
+func (h *IdeaService) ShowIdeas(ctx context.Context, in *IdeaFilter, out *ShowIdeasResponse) error {
 	return h.IdeaServiceHandler.ShowIdeas(ctx, in, out)
 }
