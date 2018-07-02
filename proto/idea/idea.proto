@@ -84,17 +84,6 @@ message Rating {
     google.protobuf.Timestamp updated_at = 5;
 }
 
-// Service declares all RPC calls for ideas related functions.
-service IdeaService {
-    rpc ListIdeas(ListIdeasRequest) returns (ListIdeasResponse) {}
-    rpc CreateIdeas(CreateIdeasRequest) returns (CreateIdeasResponse) {}
-    rpc UpdateIdeas(UpdateIdeasRequest) returns (UpdateIdeasResponse) {}
-    rpc DeleteIdeas(DeleteIdeasRequest) returns (DeleteIdeasResponse) {}
-    rpc HideIdeas(HideIdeasRequest) returns (HideIdeasResponse) {}
-    rpc ShowIdeas(ShowIdeasRequest) returns (ShowIdeasResponse) {}
-
-}
-
 message IdeaFilter {
     repeated string ids = 1;
     repeated string names = 2;
@@ -107,8 +96,15 @@ message IdeaFilter {
     repeated Occupation occupations = 9;
 }
 
-message ListIdeasRequest {
-    IdeaFilter filter = 1;
+// Service declares all RPC calls for ideas related functions.
+service IdeaService {
+    rpc ListIdeas(IdeaFilter) returns (ListIdeasResponse) {}
+    rpc CreateIdeas(UpsertIdeasRequest) returns (CreateIdeasResponse) {}
+    rpc UpdateIdeas(UpsertIdeasRequest) returns (UpdateIdeasResponse) {}
+    rpc DeleteIdeas(IdeaFilter) returns (DeleteIdeasResponse) {}
+    rpc HideIdeas(IdeaFilter) returns (HideIdeasResponse) {}
+    rpc ShowIdeas(IdeaFilter) returns (ShowIdeasResponse) {}
+
 }
 
 message ListIdeasResponse {
@@ -125,7 +121,7 @@ message ShowIdeasResponse {
     repeated Idea ideas = 3;
 }
 
-message CreateIdeasRequest {
+message UpsertIdeasRequest {
     repeated Idea ideas = 1;
 }
 
@@ -133,10 +129,6 @@ message CreateIdeasResponse {
     int64 matched = 1;
     int64 modified = 2;
     repeated Idea ideas = 3;
-}
-
-message UpdateIdeasRequest {
-    repeated Idea ideas = 1;
 }
 
 message UpdateIdeasResponse {
@@ -151,23 +143,8 @@ message HideIdeasResponse {
     repeated Idea ideas = 3;
 }
 
-message DeleteIdeasRequest {
-    repeated string ids = 1;
-}
-
 message DeleteIdeasResponse {
     int64 matched = 1;
     int64 modified = 2;
 }
-
-message ideas {
-    repeated Idea ideas = 1;
-}
-
-message HideIdeasRequest {
-    repeated string ids = 1;
-}
-
-
-
 

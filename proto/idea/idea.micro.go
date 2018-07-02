@@ -16,9 +16,8 @@ It has these top-level messages:
 	ListIdeasResponse
 	ShowIdeasRequest
 	ShowIdeasResponse
-	CreateIdeasRequest
+	UpsertIdeasRequest
 	CreateIdeasResponse
-	UpdateIdeasRequest
 	UpdateIdeasResponse
 	HideIdeasResponse
 	DeleteIdeasRequest
@@ -60,8 +59,8 @@ var _ server.Option
 
 type IdeaServiceClient interface {
 	ListIdeas(ctx context.Context, in *ListIdeasRequest, opts ...client.CallOption) (*ListIdeasResponse, error)
-	CreateIdeas(ctx context.Context, in *CreateIdeasRequest, opts ...client.CallOption) (*CreateIdeasResponse, error)
-	UpdateIdeas(ctx context.Context, in *UpdateIdeasRequest, opts ...client.CallOption) (*UpdateIdeasResponse, error)
+	CreateIdeas(ctx context.Context, in *UpsertIdeasRequest, opts ...client.CallOption) (*CreateIdeasResponse, error)
+	UpdateIdeas(ctx context.Context, in *UpsertIdeasRequest, opts ...client.CallOption) (*UpdateIdeasResponse, error)
 	DeleteIdeas(ctx context.Context, in *DeleteIdeasRequest, opts ...client.CallOption) (*DeleteIdeasResponse, error)
 	HideIdeas(ctx context.Context, in *HideIdeasRequest, opts ...client.CallOption) (*HideIdeasResponse, error)
 	ShowIdeas(ctx context.Context, in *ShowIdeasRequest, opts ...client.CallOption) (*ShowIdeasResponse, error)
@@ -95,7 +94,7 @@ func (c *ideaServiceClient) ListIdeas(ctx context.Context, in *ListIdeasRequest,
 	return out, nil
 }
 
-func (c *ideaServiceClient) CreateIdeas(ctx context.Context, in *CreateIdeasRequest, opts ...client.CallOption) (*CreateIdeasResponse, error) {
+func (c *ideaServiceClient) CreateIdeas(ctx context.Context, in *UpsertIdeasRequest, opts ...client.CallOption) (*CreateIdeasResponse, error) {
 	req := c.c.NewRequest(c.serviceName, "IdeaService.CreateIdeas", in)
 	out := new(CreateIdeasResponse)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -105,7 +104,7 @@ func (c *ideaServiceClient) CreateIdeas(ctx context.Context, in *CreateIdeasRequ
 	return out, nil
 }
 
-func (c *ideaServiceClient) UpdateIdeas(ctx context.Context, in *UpdateIdeasRequest, opts ...client.CallOption) (*UpdateIdeasResponse, error) {
+func (c *ideaServiceClient) UpdateIdeas(ctx context.Context, in *UpsertIdeasRequest, opts ...client.CallOption) (*UpdateIdeasResponse, error) {
 	req := c.c.NewRequest(c.serviceName, "IdeaService.UpdateIdeas", in)
 	out := new(UpdateIdeasResponse)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -149,8 +148,8 @@ func (c *ideaServiceClient) ShowIdeas(ctx context.Context, in *ShowIdeasRequest,
 
 type IdeaServiceHandler interface {
 	ListIdeas(context.Context, *ListIdeasRequest, *ListIdeasResponse) error
-	CreateIdeas(context.Context, *CreateIdeasRequest, *CreateIdeasResponse) error
-	UpdateIdeas(context.Context, *UpdateIdeasRequest, *UpdateIdeasResponse) error
+	CreateIdeas(context.Context, *UpsertIdeasRequest, *CreateIdeasResponse) error
+	UpdateIdeas(context.Context, *UpsertIdeasRequest, *UpdateIdeasResponse) error
 	DeleteIdeas(context.Context, *DeleteIdeasRequest, *DeleteIdeasResponse) error
 	HideIdeas(context.Context, *HideIdeasRequest, *HideIdeasResponse) error
 	ShowIdeas(context.Context, *ShowIdeasRequest, *ShowIdeasResponse) error
@@ -168,11 +167,11 @@ func (h *IdeaService) ListIdeas(ctx context.Context, in *ListIdeasRequest, out *
 	return h.IdeaServiceHandler.ListIdeas(ctx, in, out)
 }
 
-func (h *IdeaService) CreateIdeas(ctx context.Context, in *CreateIdeasRequest, out *CreateIdeasResponse) error {
+func (h *IdeaService) CreateIdeas(ctx context.Context, in *UpsertIdeasRequest, out *CreateIdeasResponse) error {
 	return h.IdeaServiceHandler.CreateIdeas(ctx, in, out)
 }
 
-func (h *IdeaService) UpdateIdeas(ctx context.Context, in *UpdateIdeasRequest, out *UpdateIdeasResponse) error {
+func (h *IdeaService) UpdateIdeas(ctx context.Context, in *UpsertIdeasRequest, out *UpdateIdeasResponse) error {
 	return h.IdeaServiceHandler.UpdateIdeas(ctx, in, out)
 }
 
