@@ -148,7 +148,6 @@ message HideIdeasResponse {
 }
 
 message DeleteIdeasResponse {
-    int64 matched = 1;
-    int64 modified = 2;
+    int64 deleted = 1;
 }
 

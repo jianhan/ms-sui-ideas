@@ -5,6 +5,7 @@ import (
 
 	"github.com/jianhan/ms-sui-ideas/db"
 	pidea "github.com/jianhan/ms-sui-ideas/proto/idea"
+	"github.com/micro/go-micro/errors"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -111,7 +112,7 @@ func (d *idea) CreateIdeas(ideas []*pidea.Idea) (int64, int64, []*pidea.Idea, er
 		return 0, 0, nil, err
 	}
 
-	return int64(r.Modified), int64(r.Matched), retVal, nil
+	return int64(r.Matched), int64(r.Modified), retVal, nil
 }
 
 func (d *idea) UpdateIdeas(ideas []*pidea.Idea) (int64, int64, []*pidea.Idea, error) {
@@ -126,5 +127,29 @@ func (d *idea) UpdateIdeas(ideas []*pidea.Idea) (int64, int64, []*pidea.Idea, er
 		return 0, 0, nil, err
 	}
 
-	return int64(r.Modified), int64(r.Matched), retVal, nil
+	return int64(r.Matched), int64(r.Modified), retVal, nil
+}
+
+func (d *idea) DeleteIdeas(filter pidea.IdeaFilter) (deleted int64, err error) {
+	ideas, err := d.ListIdeas(filter)
+	if err != nil {
+		return
+	}
+
+	// construct ids
+	var ids []string
+	for k := range ideas {
+		ids = append(ids, ideas[k].ID)
+	}
+	if len(ids) == 0 {
+		return 0, errors.BadRequest("DeleteIdeas", "can not find any records to delete")
+	}
+
+	// delete and generate results
+	deleted = int64(len(ids))
+	if err = d.session.DB(d.db).C(d.collection).Remove(bson.M{"_id": bson.M{"$in": ids}}); err != nil {
+		return 0, err
+	}
+
+	return
 }
