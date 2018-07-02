@@ -9,7 +9,6 @@ import (
 	"github.com/jianhan/ms-sui-ideas/middleware"
 	"github.com/jianhan/ms-sui-ideas/mongodb"
 	"github.com/jianhan/ms-sui-ideas/proto/occupation"
-	"github.com/jianhan/ms-sui-ideas/proto/story"
 	cfgreader "github.com/jianhan/pkg/configs"
 	"github.com/micro/go-micro"
 	"github.com/nats-io/go-nats-streaming"
@@ -51,11 +50,6 @@ func main() {
 	occupation.RegisterOccupationServiceHandler(
 		srv.Server(),
 		handler.NewOccupation(mongodb.Occupation(session, viper.GetString("mongodb.db"), "occupations"), sc),
-	)
-
-	story.RegisterStoryServiceHandler(
-		srv.Server(),
-		handler.NewStory(mongodb.Story(session, viper.GetString("mongodb.db"), "stories"), sc),
 	)
 
 	// init service

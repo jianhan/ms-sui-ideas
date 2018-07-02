@@ -8,6 +8,12 @@ It is generated from these files:
 	proto/idea/idea.proto
 
 It has these top-level messages:
+	Idea
+	Story
+	Rating
+	IdeaFilter
+	ListIdeasRequest
+	ListIdeasResponse
 	ShowIdeasRequest
 	ShowIdeasResponse
 	CreateIdeasRequest
@@ -19,7 +25,6 @@ It has these top-level messages:
 	DeleteIdeasResponse
 	Ideas
 	HideIdeasRequest
-	Idea
 */
 package idea
 
@@ -27,8 +32,6 @@ import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
 import _ "github.com/golang/protobuf/ptypes/timestamp"
-import _ "github.com/jianhan/ms-sui-ideas/proto/rating"
-import _ "github.com/jianhan/ms-sui-ideas/proto/story"
 import _ "github.com/jianhan/ms-sui-ideas/proto/occupation"
 
 import (
@@ -56,6 +59,7 @@ var _ server.Option
 // Client API for IdeaService service
 
 type IdeaServiceClient interface {
+	ListIdeas(ctx context.Context, in *ListIdeasRequest, opts ...client.CallOption) (*ListIdeasResponse, error)
 	CreateIdeas(ctx context.Context, in *CreateIdeasRequest, opts ...client.CallOption) (*CreateIdeasResponse, error)
 	UpdateIdeas(ctx context.Context, in *UpdateIdeasRequest, opts ...client.CallOption) (*UpdateIdeasResponse, error)
 	DeleteIdeas(ctx context.Context, in *DeleteIdeasRequest, opts ...client.CallOption) (*DeleteIdeasResponse, error)
@@ -79,6 +83,16 @@ func NewIdeaServiceClient(serviceName string, c client.Client) IdeaServiceClient
 		c:           c,
 		serviceName: serviceName,
 	}
+}
+
+func (c *ideaServiceClient) ListIdeas(ctx context.Context, in *ListIdeasRequest, opts ...client.CallOption) (*ListIdeasResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "IdeaService.ListIdeas", in)
+	out := new(ListIdeasResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *ideaServiceClient) CreateIdeas(ctx context.Context, in *CreateIdeasRequest, opts ...client.CallOption) (*CreateIdeasResponse, error) {
@@ -134,6 +148,7 @@ func (c *ideaServiceClient) ShowIdeas(ctx context.Context, in *ShowIdeasRequest,
 // Server API for IdeaService service
 
 type IdeaServiceHandler interface {
+	ListIdeas(context.Context, *ListIdeasRequest, *ListIdeasResponse) error
 	CreateIdeas(context.Context, *CreateIdeasRequest, *CreateIdeasResponse) error
 	UpdateIdeas(context.Context, *UpdateIdeasRequest, *UpdateIdeasResponse) error
 	DeleteIdeas(context.Context, *DeleteIdeasRequest, *DeleteIdeasResponse) error
@@ -147,6 +162,10 @@ func RegisterIdeaServiceHandler(s server.Server, hdlr IdeaServiceHandler, opts .
 
 type IdeaService struct {
 	IdeaServiceHandler
+}
+
+func (h *IdeaService) ListIdeas(ctx context.Context, in *ListIdeasRequest, out *ListIdeasResponse) error {
+	return h.IdeaServiceHandler.ListIdeas(ctx, in, out)
 }
 
 func (h *IdeaService) CreateIdeas(ctx context.Context, in *CreateIdeasRequest, out *CreateIdeasResponse) error {

@@ -34,9 +34,9 @@ message Idea {
     bool hidden = 5;
     // @inject_tag: bson:"app_type" valid:"App type is required"
     repeated AppType type = 6;
-    // @inject_tag: bson:"min_age"
+    // @inject_tag: bson:"min_age" valid:"range(8|99)~Invalid min age range"
     uint64 min_age = 7;
-    // @inject_tag: bson:"max_age"
+    // @inject_tag: bson:"max_age" valid:"range(8|99)~Invalid max age range"
     uint64 max_age = 8;
     // @inject_tag: bson:"rating"
     repeated Rating rating = 9;
@@ -71,6 +71,19 @@ message Story {
     google.protobuf.Timestamp updated_at = 9;
 }
 
+message Rating {
+    // @inject_tag: bson:"_id" valid:"required~ID is required, uuidv4~ID must be a valid UUIDv4" conform:"trim"
+    string ID = 1;
+    // @inject_tag: bson:"user_id" valid:"required~User ID is required, uuidv4~User ID must be a valid UUIDv4" conform:"trim"
+    string user_id = 2;
+    // @inject_tag: bson:"idea_id" valid:"required~Idea ID is required, uuidv4~Idea id must be a valid UUIDv4" conform:"trim"
+    string idea_id = 3;
+    // @inject_tag: bson:"created_at"
+    google.protobuf.Timestamp created_at = 4;
+    // @inject_tag: bson:"updated_at"
+    google.protobuf.Timestamp updated_at = 5;
+}
+
 // Service declares all RPC calls for ideas related functions.
 service IdeaService {
     rpc ListIdeas(ListIdeasRequest) returns (ListIdeasResponse) {}
@@ -101,7 +114,6 @@ message ListIdeasRequest {
 message ListIdeasResponse {
     repeated Idea ideas = 1;
 }
-
 
 message ShowIdeasRequest {
     repeated string ids = 1;
