@@ -5,8 +5,10 @@ import (
 )
 
 type Idea interface {
-	Ideas(ideas []*idea.Idea) ([]*idea.Idea, error)
-	UpdateIdeas(ideas []*idea.Idea) ([]*idea.Idea, error)
-	DeleteIdeas(ids []string) error
-	HideIdeas(ids []string) ([]*idea.Idea, error)
+	ListIdeas(filter idea.IdeaFilter) ([]*idea.Idea, error)
+	CreateIdeas(ideas []*idea.Idea) (int64, int64, []*idea.Idea, error)
+	UpdateIdeas(ideas []*idea.Idea) (int64, int64, []*idea.Idea, error)
+	DeleteIdeas(filter idea.IdeaFilter) (int64, int64, error)
+	HideIdeas(filter idea.IdeaFilter) (int64, int64, []*idea.Idea, error)
+	ShowIdeas(filter idea.IdeaFilter) (int64, int64, []*idea.Idea, error)
 }
