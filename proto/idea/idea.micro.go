@@ -14,11 +14,9 @@ It has these top-level messages:
 	IdeaFilter
 	ListIdeasResponse
 	ShowIdeasRequest
-	ShowIdeasResponse
 	UpsertIdeasRequest
 	CreateIdeasResponse
 	UpdateIdeasResponse
-	HideIdeasResponse
 	DeleteIdeasResponse
 */
 package idea
@@ -28,6 +26,7 @@ import fmt "fmt"
 import math "math"
 import _ "github.com/golang/protobuf/ptypes/timestamp"
 import _ "github.com/jianhan/ms-sui-ideas/proto/occupation"
+import google_protobuf1 "github.com/golang/protobuf/ptypes/empty"
 
 import (
 	client "github.com/micro/go-micro/client"
@@ -39,6 +38,7 @@ import (
 var _ = proto.Marshal
 var _ = fmt.Errorf
 var _ = math.Inf
+var _ = google_protobuf1.Empty{}
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the proto package it is being compiled against.
@@ -58,8 +58,8 @@ type IdeaServiceClient interface {
 	CreateIdeas(ctx context.Context, in *UpsertIdeasRequest, opts ...client.CallOption) (*CreateIdeasResponse, error)
 	UpdateIdeas(ctx context.Context, in *UpsertIdeasRequest, opts ...client.CallOption) (*UpdateIdeasResponse, error)
 	DeleteIdeas(ctx context.Context, in *IdeaFilter, opts ...client.CallOption) (*DeleteIdeasResponse, error)
-	HideIdeas(ctx context.Context, in *IdeaFilter, opts ...client.CallOption) (*HideIdeasResponse, error)
-	ShowIdeas(ctx context.Context, in *IdeaFilter, opts ...client.CallOption) (*ShowIdeasResponse, error)
+	HideIdeas(ctx context.Context, in *IdeaFilter, opts ...client.CallOption) (*google_protobuf1.Empty, error)
+	ShowIdeas(ctx context.Context, in *IdeaFilter, opts ...client.CallOption) (*google_protobuf1.Empty, error)
 }
 
 type ideaServiceClient struct {
@@ -120,9 +120,9 @@ func (c *ideaServiceClient) DeleteIdeas(ctx context.Context, in *IdeaFilter, opt
 	return out, nil
 }
 
-func (c *ideaServiceClient) HideIdeas(ctx context.Context, in *IdeaFilter, opts ...client.CallOption) (*HideIdeasResponse, error) {
+func (c *ideaServiceClient) HideIdeas(ctx context.Context, in *IdeaFilter, opts ...client.CallOption) (*google_protobuf1.Empty, error) {
 	req := c.c.NewRequest(c.serviceName, "IdeaService.HideIdeas", in)
-	out := new(HideIdeasResponse)
+	out := new(google_protobuf1.Empty)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -130,9 +130,9 @@ func (c *ideaServiceClient) HideIdeas(ctx context.Context, in *IdeaFilter, opts 
 	return out, nil
 }
 
-func (c *ideaServiceClient) ShowIdeas(ctx context.Context, in *IdeaFilter, opts ...client.CallOption) (*ShowIdeasResponse, error) {
+func (c *ideaServiceClient) ShowIdeas(ctx context.Context, in *IdeaFilter, opts ...client.CallOption) (*google_protobuf1.Empty, error) {
 	req := c.c.NewRequest(c.serviceName, "IdeaService.ShowIdeas", in)
-	out := new(ShowIdeasResponse)
+	out := new(google_protobuf1.Empty)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -147,8 +147,8 @@ type IdeaServiceHandler interface {
 	CreateIdeas(context.Context, *UpsertIdeasRequest, *CreateIdeasResponse) error
 	UpdateIdeas(context.Context, *UpsertIdeasRequest, *UpdateIdeasResponse) error
 	DeleteIdeas(context.Context, *IdeaFilter, *DeleteIdeasResponse) error
-	HideIdeas(context.Context, *IdeaFilter, *HideIdeasResponse) error
-	ShowIdeas(context.Context, *IdeaFilter, *ShowIdeasResponse) error
+	HideIdeas(context.Context, *IdeaFilter, *google_protobuf1.Empty) error
+	ShowIdeas(context.Context, *IdeaFilter, *google_protobuf1.Empty) error
 }
 
 func RegisterIdeaServiceHandler(s server.Server, hdlr IdeaServiceHandler, opts ...server.HandlerOption) {
@@ -175,10 +175,10 @@ func (h *IdeaService) DeleteIdeas(ctx context.Context, in *IdeaFilter, out *Dele
 	return h.IdeaServiceHandler.DeleteIdeas(ctx, in, out)
 }
 
-func (h *IdeaService) HideIdeas(ctx context.Context, in *IdeaFilter, out *HideIdeasResponse) error {
+func (h *IdeaService) HideIdeas(ctx context.Context, in *IdeaFilter, out *google_protobuf1.Empty) error {
 	return h.IdeaServiceHandler.HideIdeas(ctx, in, out)
 }
 
-func (h *IdeaService) ShowIdeas(ctx context.Context, in *IdeaFilter, out *ShowIdeasResponse) error {
+func (h *IdeaService) ShowIdeas(ctx context.Context, in *IdeaFilter, out *google_protobuf1.Empty) error {
 	return h.IdeaServiceHandler.ShowIdeas(ctx, in, out)
 }

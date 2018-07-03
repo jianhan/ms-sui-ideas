@@ -9,6 +9,6 @@ type Idea interface {
 	CreateIdeas(ideas []*idea.Idea) (int64, int64, []*idea.Idea, error)
 	UpdateIdeas(ideas []*idea.Idea) (int64, int64, []*idea.Idea, error)
 	DeleteIdeas(filter idea.IdeaFilter) (int64, error)
-	HideIdeas(filter idea.IdeaFilter) (int64, int64, []*idea.Idea, error)
-	ShowIdeas(filter idea.IdeaFilter) (int64, int64, []*idea.Idea, error)
+	HideIdeas(filter idea.IdeaFilter) error
+	ShowIdeas(filter idea.IdeaFilter) error
 }

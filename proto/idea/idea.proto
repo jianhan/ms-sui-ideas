@@ -4,6 +4,7 @@ option go_package="idea";
 
 import "google/protobuf/timestamp.proto";
 import "github.com/jianhan/ms-sui-ideas/proto/occupation/occupation.proto";
+import "google/protobuf/empty.proto";
 
 // AppType defines application type
 enum AppType {
@@ -106,8 +107,8 @@ service IdeaService {
     rpc CreateIdeas(UpsertIdeasRequest) returns (CreateIdeasResponse) {}
     rpc UpdateIdeas(UpsertIdeasRequest) returns (UpdateIdeasResponse) {}
     rpc DeleteIdeas(IdeaFilter) returns (DeleteIdeasResponse) {}
-    rpc HideIdeas(IdeaFilter) returns (HideIdeasResponse) {}
-    rpc ShowIdeas(IdeaFilter) returns (ShowIdeasResponse) {}
+    rpc HideIdeas(IdeaFilter) returns (google.protobuf.Empty) {}
+    rpc ShowIdeas(IdeaFilter) returns (google.protobuf.Empty) {}
 
 }
 
@@ -117,12 +118,6 @@ message ListIdeasResponse {
 
 message ShowIdeasRequest {
     repeated string ids = 1;
-}
-
-message ShowIdeasResponse {
-    int64 matched = 1;
-    int64 modified = 2;
-    repeated Idea ideas = 3;
 }
 
 message UpsertIdeasRequest {
@@ -136,12 +131,6 @@ message CreateIdeasResponse {
 }
 
 message UpdateIdeasResponse {
-    int64 matched = 1;
-    int64 modified = 2;
-    repeated Idea ideas = 3;
-}
-
-message HideIdeasResponse {
     int64 matched = 1;
     int64 modified = 2;
     repeated Idea ideas = 3;

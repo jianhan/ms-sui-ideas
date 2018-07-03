@@ -153,3 +153,49 @@ func (d *idea) DeleteIdeas(filter pidea.IdeaFilter) (deleted int64, err error) {
 
 	return
 }
+
+func (d *idea) HideIdeas(filter pidea.IdeaFilter) error {
+	ideas, err := d.ListIdeas(filter)
+	if err != nil {
+		return err
+	}
+	if len(ideas) == 0 {
+		return errors.NotFound("HideIdeas", "Ideas not found")
+	}
+
+	// get ids
+	var ids []string
+	for k := range ideas {
+		ids = append(ids, ideas[k].ID)
+	}
+
+	// perform update
+	if err := d.session.DB(d.db).C(d.collection).Update(bson.M{"_id": bson.M{"$in": ids}}, bson.M{"$set": bson.M{"hidden": true}}); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (d *idea) ShowIdeas(filter pidea.IdeaFilter) error {
+	ideas, err := d.ListIdeas(filter)
+	if err != nil {
+		return err
+	}
+	if len(ideas) == 0 {
+		return errors.NotFound("HideIdeas", "Ideas not found")
+	}
+
+	// get ids
+	var ids []string
+	for k := range ideas {
+		ids = append(ids, ideas[k].ID)
+	}
+
+	// perform update
+	if err := d.session.DB(d.db).C(d.collection).Update(bson.M{"_id": bson.M{"$in": ids}}, bson.M{"$set": bson.M{"hidden": show}}); err != nil {
+		return err
+	}
+
+	return nil
+}
