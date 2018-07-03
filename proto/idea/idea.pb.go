@@ -108,10 +108,10 @@ type Idea struct {
 	Hidden bool `protobuf:"varint,5,opt,name=hidden" json:"hidden,omitempty" bson:"hidden"`
 	// @inject_tag: bson:"app_types" valid:"required~App types is required"
 	AppTypes []AppType `protobuf:"varint,6,rep,packed,name=app_types,json=appTypes,enum=go.micro.srv.ideas.AppType" json:"app_types,omitempty" bson:"app_types" valid:"required~App types is required"`
-	// @inject_tag: bson:"min_age" valid:"range(8|99)~Invalid min age range"
-	MinAge uint64 `protobuf:"varint,7,opt,name=min_age,json=minAge" json:"min_age,omitempty" bson:"min_age" valid:"range(8|99)~Invalid min age range"`
-	// @inject_tag: bson:"max_age" valid:"range(8|99)~Invalid max age range"
-	MaxAge uint64 `protobuf:"varint,8,opt,name=max_age,json=maxAge" json:"max_age,omitempty" bson:"max_age" valid:"range(8|99)~Invalid max age range"`
+	// @inject_tag: bson:"min_age" valid:"range(8|99)~Invalid min age range, must between 8 and 99"
+	MinAge uint64 `protobuf:"varint,7,opt,name=min_age,json=minAge" json:"min_age,omitempty" bson:"min_age" valid:"range(8|99)~Invalid min age range, must between 8 and 99"`
+	// @inject_tag: bson:"max_age" valid:"range(8|99)~Invalid max age range, must between 8 and 99"
+	MaxAge uint64 `protobuf:"varint,8,opt,name=max_age,json=maxAge" json:"max_age,omitempty" bson:"max_age" valid:"range(8|99)~Invalid max age range, must between 8 and 99"`
 	// @inject_tag: bson:"rating"
 	Rating []*Rating `protobuf:"bytes,9,rep,name=rating" json:"rating,omitempty" bson:"rating"`
 	// @inject_tag: bson:"stories"

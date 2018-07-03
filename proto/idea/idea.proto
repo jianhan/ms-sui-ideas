@@ -35,9 +35,9 @@ message Idea {
     bool hidden = 5;
     // @inject_tag: bson:"app_types" valid:"required~App types is required"
     repeated AppType app_types = 6;
-    // @inject_tag: bson:"min_age" valid:"range(8|99)~Invalid min age range"
+    // @inject_tag: bson:"min_age" valid:"range(8|99)~Invalid min age range, must between 8 and 99"
     uint64 min_age = 7;
-    // @inject_tag: bson:"max_age" valid:"range(8|99)~Invalid max age range"
+    // @inject_tag: bson:"max_age" valid:"range(8|99)~Invalid max age range, must between 8 and 99"
     uint64 max_age = 8;
     // @inject_tag: bson:"rating"
     repeated Rating rating = 9;
