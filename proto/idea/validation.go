@@ -19,7 +19,6 @@ func (r *UpsertIdeasRequest) Validate() error {
 		if _, err := govalidator.ValidateStruct(r.Ideas[k]); err != nil {
 			return errors.BadRequest("CreateIdeasRequest", fmt.Sprintf("Validation failed, %s", err.Error()))
 		}
-
 		// validate stories
 		for sK := range r.Ideas[k].Stories {
 			if _, err := govalidator.ValidateStruct(r.Ideas[k].Stories[sK]); err != nil {
