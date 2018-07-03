@@ -18,6 +18,8 @@ It has these top-level messages:
 	CreateIdeasResponse
 	UpdateIdeasResponse
 	DeleteIdeasResponse
+	AddRatingsRequest
+	AddRatingsResponse
 */
 package idea
 
@@ -60,6 +62,7 @@ type IdeaServiceClient interface {
 	DeleteIdeas(ctx context.Context, in *IdeaFilter, opts ...client.CallOption) (*DeleteIdeasResponse, error)
 	HideIdeas(ctx context.Context, in *IdeaFilter, opts ...client.CallOption) (*google_protobuf1.Empty, error)
 	ShowIdeas(ctx context.Context, in *IdeaFilter, opts ...client.CallOption) (*google_protobuf1.Empty, error)
+	AddRatings(ctx context.Context, in *AddRatingsRequest, opts ...client.CallOption) (*AddRatingsResponse, error)
 }
 
 type ideaServiceClient struct {
@@ -140,6 +143,16 @@ func (c *ideaServiceClient) ShowIdeas(ctx context.Context, in *IdeaFilter, opts 
 	return out, nil
 }
 
+func (c *ideaServiceClient) AddRatings(ctx context.Context, in *AddRatingsRequest, opts ...client.CallOption) (*AddRatingsResponse, error) {
+	req := c.c.NewRequest(c.serviceName, "IdeaService.AddRatings", in)
+	out := new(AddRatingsResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for IdeaService service
 
 type IdeaServiceHandler interface {
@@ -149,6 +162,7 @@ type IdeaServiceHandler interface {
 	DeleteIdeas(context.Context, *IdeaFilter, *DeleteIdeasResponse) error
 	HideIdeas(context.Context, *IdeaFilter, *google_protobuf1.Empty) error
 	ShowIdeas(context.Context, *IdeaFilter, *google_protobuf1.Empty) error
+	AddRatings(context.Context, *AddRatingsRequest, *AddRatingsResponse) error
 }
 
 func RegisterIdeaServiceHandler(s server.Server, hdlr IdeaServiceHandler, opts ...server.HandlerOption) {
@@ -181,4 +195,8 @@ func (h *IdeaService) HideIdeas(ctx context.Context, in *IdeaFilter, out *google
 
 func (h *IdeaService) ShowIdeas(ctx context.Context, in *IdeaFilter, out *google_protobuf1.Empty) error {
 	return h.IdeaServiceHandler.ShowIdeas(ctx, in, out)
+}
+
+func (h *IdeaService) AddRatings(ctx context.Context, in *AddRatingsRequest, out *AddRatingsResponse) error {
+	return h.IdeaServiceHandler.AddRatings(ctx, in, out)
 }

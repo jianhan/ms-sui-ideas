@@ -111,6 +111,7 @@ service IdeaService {
     rpc DeleteIdeas(IdeaFilter) returns (DeleteIdeasResponse) {}
     rpc HideIdeas(IdeaFilter) returns (google.protobuf.Empty) {}
     rpc ShowIdeas(IdeaFilter) returns (google.protobuf.Empty) {}
+    rpc AddRatings(AddRatingsRequest) returns (AddRatingsResponse) {}
 
 }
 
@@ -142,3 +143,10 @@ message DeleteIdeasResponse {
     int64 deleted = 1;
 }
 
+message AddRatingsRequest {
+    repeated Rating ratings = 1;
+}
+
+message AddRatingsResponse {
+    Idea idea = 1;
+}
