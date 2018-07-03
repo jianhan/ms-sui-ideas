@@ -29,12 +29,12 @@ message Idea {
     string name = 2;
     // @inject_tag: bson:"slug" valid:"required~Slug is required" conform:"trim"
     string slug = 3;
-    // @inject_tag: bson:"description" valid:"Description is required" conform:"trim"
+    // @inject_tag: bson:"description" valid:"required~Description is required" conform:"trim"
     string description = 4;
     // @inject_tag: bson:"hidden"
     bool hidden = 5;
-    // @inject_tag: bson:"app_type" valid:"App type is required"
-    repeated AppType type = 6;
+    // @inject_tag: bson:"app_type" valid:"required~App type is required"
+    repeated AppType app_type = 6;
     // @inject_tag: bson:"min_age" valid:"range(8|99)~Invalid min age range"
     uint64 min_age = 7;
     // @inject_tag: bson:"max_age" valid:"range(8|99)~Invalid max age range"
