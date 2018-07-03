@@ -49,10 +49,10 @@ func (h *Idea) DeleteIdeas(ctx context.Context, req *idea.IdeaFilter, rsp *idea.
 	return
 }
 
-func (h *Idea) HideIdeas(ctx context.Context, req *idea.IdeaFilter, rsp empty.Empty) error {
+func (h *Idea) HideIdeas(ctx context.Context, req *idea.IdeaFilter, rsp *empty.Empty) error {
 	return h.db.HideIdeas(req)
 }
 
-func (h *Idea) ShowIdeas(ctx context.Context, req *idea.IdeaFilter, rsp empty.Empty) error {
+func (h *Idea) ShowIdeas(ctx context.Context, req *idea.IdeaFilter, rsp *empty.Empty) error {
 	return h.db.ShowIdeas(req)
 }

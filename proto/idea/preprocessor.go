@@ -3,6 +3,7 @@ package idea
 import (
 	"strings"
 
+	"github.com/gosimple/slug"
 	"github.com/jianhan/pkg/proto"
 	"github.com/leebenson/conform"
 )
@@ -13,6 +14,7 @@ func (r *UpsertIdeasRequest) Preprocess() error {
 		if err := proto.Fix(r.Ideas[k]); err != nil {
 			return err
 		}
+		r.Ideas[k].Slug = slug.Make(r.Ideas[k].Name)
 	}
 
 	return nil
