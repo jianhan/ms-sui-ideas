@@ -58,7 +58,7 @@ func Idea(session *mgo.Session, db, collection string) db.Idea {
 	}
 }
 
-func (d *idea) ListIdeas(filter pidea.IdeaFilter) ([]*pidea.Idea, error) {
+func (d *idea) ListIdeas(filter *pidea.IdeaFilter) ([]*pidea.Idea, error) {
 	// define query
 	query := bson.M{}
 	var r []*pidea.Idea
@@ -130,7 +130,7 @@ func (d *idea) UpdateIdeas(ideas []*pidea.Idea) (int64, int64, []*pidea.Idea, er
 	return int64(r.Matched), int64(r.Modified), retVal, nil
 }
 
-func (d *idea) DeleteIdeas(filter pidea.IdeaFilter) (deleted int64, err error) {
+func (d *idea) DeleteIdeas(filter *pidea.IdeaFilter) (deleted int64, err error) {
 	ideas, err := d.ListIdeas(filter)
 	if err != nil {
 		return
@@ -154,36 +154,30 @@ func (d *idea) DeleteIdeas(filter pidea.IdeaFilter) (deleted int64, err error) {
 	return
 }
 
-func (d *idea) HideIdeas(filter pidea.IdeaFilter) error {
-	ideas, err := d.ListIdeas(filter)
-	if err != nil {
-		return err
-	}
-	if len(ideas) == 0 {
-		return errors.NotFound("HideIdeas", "Ideas not found")
-	}
-
-	// get ids
-	var ids []string
-	for k := range ideas {
-		ids = append(ids, ideas[k].ID)
-	}
-
-	// perform update
-	if err := d.getCollection().Update(bson.M{"_id": bson.M{"$in": ids}}, bson.M{"$set": bson.M{"hidden": true}}); err != nil {
-		return err
-	}
-
-	return nil
+func (d *idea) HideIdeas(filter *pidea.IdeaFilter) error {
+	return d.updateHide(filter, false)
 }
 
-func (d *idea) ShowIdeas(filter pidea.IdeaFilter) error {
+func (d *idea) ShowIdeas(filter *pidea.IdeaFilter) error {
+	return d.updateHide(filter, false)
+}
+
+func (d *idea) ideasByFilter(filter *pidea.IdeaFilter) ([]*pidea.Idea, error) {
 	ideas, err := d.ListIdeas(filter)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	if len(ideas) == 0 {
-		return errors.NotFound("HideIdeas", "Ideas not found")
+		return nil, errors.NotFound("HideIdeas", "Ideas not found")
+	}
+
+	return ideas, nil
+}
+
+func (d *idea) updateHide(filter *pidea.IdeaFilter, value bool) error {
+	ideas, err := d.ideasByFilter(filter)
+	if err != nil {
+		return err
 	}
 
 	// get ids
@@ -193,7 +187,7 @@ func (d *idea) ShowIdeas(filter pidea.IdeaFilter) error {
 	}
 
 	// perform update
-	if err := d.getCollection().Update(bson.M{"_id": bson.M{"$in": ids}}, bson.M{"$set": bson.M{"hidden": false}}); err != nil {
+	if err := d.getCollection().Update(bson.M{"_id": bson.M{"$in": ids}}, bson.M{"$set": bson.M{"hidden": value}}); err != nil {
 		return err
 	}
 
