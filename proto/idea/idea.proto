@@ -39,16 +39,18 @@ message Idea {
     uint64 min_age = 7;
     // @inject_tag: bson:"max_age" valid:"range(8|99)~Invalid max age range, must between 8 and 99"
     uint64 max_age = 8;
+    // @inject_tag: bson:"ratings"
+    repeated Rating ratings = 9;
     // @inject_tag: bson:"rating"
-    repeated Rating rating = 9;
+    float rating = 10;
     // @inject_tag: bson:"stories"
-    repeated Story stories = 10;
+    repeated Story stories = 11;
     // @inject_tag: bson:"occupations"
-    repeated Occupation occupations = 11;
+    repeated Occupation occupations = 12;
     // @inject_tag: bson:"created_at"
-    google.protobuf.Timestamp created_at = 12;
+    google.protobuf.Timestamp created_at = 13;
     // @inject_tag: bson:"updated_at"
-    google.protobuf.Timestamp updated_at = 13;
+    google.protobuf.Timestamp updated_at = 14;
 }
 
 message Story {
