@@ -32,7 +32,7 @@ func Occupation(session *mgo.Session, db, collection string) db.Occupation {
 
 func (d *occupation) CreateOccupations(occupations []*poccupation.Occupation) (int64, int64, []*poccupation.Occupation, error) {
 	var retVal []*poccupation.Occupation
-	bulk := d.session.DB(d.db).C(d.collection).Bulk()
+	bulk := d.getCollection().Bulk()
 	for _, occupation := range occupations {
 		bulk.Insert(occupation)
 		retVal = append(retVal, occupation)
@@ -47,7 +47,7 @@ func (d *occupation) CreateOccupations(occupations []*poccupation.Occupation) (i
 
 func (d *occupation) UpdateOccupations(occupations []*poccupation.Occupation) (int64, int64, []*poccupation.Occupation, error) {
 	var retVal []*poccupation.Occupation
-	bulk := d.session.DB(d.db).C(d.collection).Bulk()
+	bulk := d.getCollection().Bulk()
 	for _, occupation := range occupations {
 		bulk.Update(
 			bson.M{"_id": occupation.ID},
@@ -64,7 +64,7 @@ func (d *occupation) UpdateOccupations(occupations []*poccupation.Occupation) (i
 }
 
 func (d *occupation) HideOccupations(ids []string) (int64, int64, error) {
-	bulk := d.session.DB(d.db).C(d.collection).Bulk()
+	bulk := d.getCollection().Bulk()
 	for _, id := range ids {
 		bulk.Update(
 			bson.M{"_id": id},
@@ -80,7 +80,7 @@ func (d *occupation) HideOccupations(ids []string) (int64, int64, error) {
 }
 
 func (d *occupation) ShowOccupations(ids []string) (int64, int64, error) {
-	bulk := d.session.DB(d.db).C(d.collection).Bulk()
+	bulk := d.getCollection().Bulk()
 	for _, id := range ids {
 		bulk.Update(
 			bson.M{"_id": id},

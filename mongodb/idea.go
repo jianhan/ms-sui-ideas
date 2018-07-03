@@ -93,7 +93,7 @@ func (d *idea) ListIdeas(filter pidea.IdeaFilter) ([]*pidea.Idea, error) {
 	}
 
 	// get results
-	if err := d.session.DB(d.db).C(d.collection).Find(query).Sort(sorts...).Skip(perPage * (currentPage - 1)).Limit(perPage).All(&r); err != nil {
+	if err := d.getCollection().Find(query).Sort(sorts...).Skip(perPage * (currentPage - 1)).Limit(perPage).All(&r); err != nil {
 		return nil, err
 	}
 
@@ -101,7 +101,7 @@ func (d *idea) ListIdeas(filter pidea.IdeaFilter) ([]*pidea.Idea, error) {
 }
 
 func (d *idea) CreateIdeas(ideas []*pidea.Idea) (int64, int64, []*pidea.Idea, error) {
-	bulk := d.session.DB(d.db).C(d.collection).Bulk()
+	bulk := d.getCollection().Bulk()
 	var retVal []*pidea.Idea
 	for _, v := range ideas {
 		bulk.Insert(v)
@@ -116,7 +116,7 @@ func (d *idea) CreateIdeas(ideas []*pidea.Idea) (int64, int64, []*pidea.Idea, er
 }
 
 func (d *idea) UpdateIdeas(ideas []*pidea.Idea) (int64, int64, []*pidea.Idea, error) {
-	bulk := d.session.DB(d.db).C(d.collection).Bulk()
+	bulk := d.getCollection().Bulk()
 	var retVal []*pidea.Idea
 	for _, v := range ideas {
 		bulk.Update(bson.M{"_id": v.ID}, v)
@@ -147,7 +147,7 @@ func (d *idea) DeleteIdeas(filter pidea.IdeaFilter) (deleted int64, err error) {
 
 	// delete and generate results
 	deleted = int64(len(ids))
-	if err = d.session.DB(d.db).C(d.collection).Remove(bson.M{"_id": bson.M{"$in": ids}}); err != nil {
+	if err = d.getCollection().Remove(bson.M{"_id": bson.M{"$in": ids}}); err != nil {
 		return 0, err
 	}
 
@@ -170,7 +170,7 @@ func (d *idea) HideIdeas(filter pidea.IdeaFilter) error {
 	}
 
 	// perform update
-	if err := d.session.DB(d.db).C(d.collection).Update(bson.M{"_id": bson.M{"$in": ids}}, bson.M{"$set": bson.M{"hidden": true}}); err != nil {
+	if err := d.getCollection().Update(bson.M{"_id": bson.M{"$in": ids}}, bson.M{"$set": bson.M{"hidden": true}}); err != nil {
 		return err
 	}
 
@@ -193,7 +193,7 @@ func (d *idea) ShowIdeas(filter pidea.IdeaFilter) error {
 	}
 
 	// perform update
-	if err := d.session.DB(d.db).C(d.collection).Update(bson.M{"_id": bson.M{"$in": ids}}, bson.M{"$set": bson.M{"hidden": show}}); err != nil {
+	if err := d.getCollection().Update(bson.M{"_id": bson.M{"$in": ids}}, bson.M{"$set": bson.M{"hidden": false}}); err != nil {
 		return err
 	}
 

@@ -73,3 +73,7 @@ func (b *base) beforeUpsert(v interface{}) error {
 
 	return nil
 }
+
+func (b *base) getCollection() *mgo.Collection {
+	return b.session.DB(b.db).C(b.collection)
+}
