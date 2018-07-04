@@ -65,6 +65,9 @@ func (r *AddRatingsRequest) Validate() error {
 		if _, err := govalidator.ValidateStruct(r.Ratings[k]); err != nil {
 			return errors.BadRequest("AddRatingsRequest", err.Error())
 		}
+		if r.Ratings[k].Value >= 5.00 || r.Ratings[k].Value <= 0.50 {
+			return errors.BadRequest("AddRatingsRequest", fmt.Sprintf("Rating value %.2f is out of range, must between 0.5 and 5.0", r.Ratings[k].Value))
+		}
 	}
 
 	return nil

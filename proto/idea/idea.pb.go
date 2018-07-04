@@ -323,8 +323,8 @@ func (m *Story) GetUpdatedAt() *google_protobuf.Timestamp {
 type Rating struct {
 	// @inject_tag: bson:"user_id" valid:"required~User ID is required, uuidv4~User ID must be a valid UUIDv4" conform:"trim"
 	UserId string `protobuf:"bytes,1,opt,name=user_id,json=userId" json:"user_id,omitempty" bson:"user_id" valid:"required~User ID is required, uuidv4~User ID must be a valid UUIDv4" conform:"trim"`
-	// @inject_tag: bson:"value" valid:"required~Rating value is required, uuidv4~User ID must be a valid UUIDv4, range(0.5|5)~Invalid rating value, must between 0.5 and 5"
-	Value float32 `protobuf:"fixed32,2,opt,name=value" json:"value,omitempty" bson:"value" valid:"required~Rating value is required, uuidv4~User ID must be a valid UUIDv4, range(0.5|5)~Invalid rating value, must between 0.5 and 5"`
+	// @inject_tag: bson:"value" valid:"required~Rating value is required"
+	Value float32 `protobuf:"fixed32,2,opt,name=value" json:"value,omitempty" bson:"value" valid:"required~Rating value is required"`
 	// @inject_tag: bson:"created_at"
 	CreatedAt *google_protobuf.Timestamp `protobuf:"bytes,3,opt,name=created_at,json=createdAt" json:"created_at,omitempty" bson:"created_at"`
 	// @inject_tag: bson:"updated_at"
