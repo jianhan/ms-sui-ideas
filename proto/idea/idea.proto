@@ -75,16 +75,14 @@ message Story {
 }
 
 message Rating {
-    // @inject_tag: bson:"_id" valid:"required~ID is required, uuidv4~ID must be a valid UUIDv4" conform:"trim"
-    string ID = 1;
     // @inject_tag: bson:"user_id" valid:"required~User ID is required, uuidv4~User ID must be a valid UUIDv4" conform:"trim"
-    string user_id = 2;
-    // @inject_tag: bson:"idea_id" valid:"required~Idea ID is required, uuidv4~Idea id must be a valid UUIDv4" conform:"trim"
-    string idea_id = 3;
+    string user_id = 1;
+    // @inject_tag: bson:"value" valid:"required~Rating value is required, uuidv4~User ID must be a valid UUIDv4, range(0.5|5)~Invalid rating value, must between 0.5 and 5"
+    float value = 2;
     // @inject_tag: bson:"created_at"
-    google.protobuf.Timestamp created_at = 4;
+    google.protobuf.Timestamp created_at = 3;
     // @inject_tag: bson:"updated_at"
-    google.protobuf.Timestamp updated_at = 5;
+    google.protobuf.Timestamp updated_at = 4;
 }
 
 message IdeaFilter {
