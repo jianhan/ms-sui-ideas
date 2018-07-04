@@ -193,3 +193,18 @@ func (d *idea) updateHide(filter *pidea.IdeaFilter, value bool) error {
 
 	return nil
 }
+
+func (d *idea) AddRatings(ideaID string, ratings []*pidea.Rating) (*pidea.Idea, error) {
+	ideas, err := d.ideasByFilter(&pidea.IdeaFilter{Ids: []string{ideaID}})
+	if err != nil {
+		return nil, err
+	}
+	ideas[0].Ratings = append(ideas[0].Ratings, ratings...)
+
+	// update idea
+	if _, _, _, err := d.UpdateIdeas([]*pidea.Idea{ideas[0]}); err != nil {
+		return nil, err
+	}
+
+	return ideas[0], nil
+}
