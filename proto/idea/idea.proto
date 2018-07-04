@@ -110,7 +110,6 @@ service IdeaService {
     rpc HideIdeas(IdeaFilter) returns (google.protobuf.Empty) {}
     rpc ShowIdeas(IdeaFilter) returns (google.protobuf.Empty) {}
     rpc AddRatings(AddRatingsRequest) returns (AddRatingsResponse) {}
-
 }
 
 message ListIdeasResponse {

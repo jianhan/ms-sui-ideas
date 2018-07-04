@@ -42,12 +42,28 @@ func (r *UpsertIdeasRequest) Validate() error {
 func (r *IdeaFilter) Validate() error {
 	for k := range r.Ids {
 		if !govalidator.IsUUID(r.Ids[k]) {
-			return fmt.Errorf("'%s' must be a valid UUID")
+			return errors.BadRequest("IdeaFilter", fmt.Sprintf("'%s' must be a valid UUID", r.Ids[k]))
 		}
 	}
 	for k := range r.Names {
 		if strings.Trim(r.Names[k], " ") == "" {
 			return errors.BadRequest("Validate", "Name must not be blank")
+		}
+	}
+
+	return nil
+}
+
+func (r *AddRatingsRequest) Validate() error {
+	if !govalidator.IsUUID(r.IdeaId) {
+		return errors.BadRequest("AddRatingsRequest", fmt.Sprintf("Idea ID '%s' must be a valid UUID", r.IdeaId))
+	}
+	if len(r.Ratings) == 0 {
+		return errors.BadRequest("AddRatingsRequest", "Ratings can not be empty")
+	}
+	for k := range r.Ratings {
+		if _, err := govalidator.ValidateStruct(r.Ratings[k]); err != nil {
+			return errors.BadRequest("AddRatingsRequest", err.Error())
 		}
 	}
 
