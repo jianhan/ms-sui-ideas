@@ -11,4 +11,5 @@ type Idea interface {
 	DeleteIdeas(filter *idea.IdeaFilter) (int64, error)
 	HideIdeas(filter *idea.IdeaFilter) error
 	ShowIdeas(filter *idea.IdeaFilter) error
+	AddRatings(ideaID string, ratings []*idea.Rating) (*idea.Idea, error)
 }

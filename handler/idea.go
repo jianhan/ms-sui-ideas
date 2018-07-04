@@ -56,3 +56,11 @@ func (h *Idea) HideIdeas(ctx context.Context, req *idea.IdeaFilter, rsp *empty.E
 func (h *Idea) ShowIdeas(ctx context.Context, req *idea.IdeaFilter, rsp *empty.Empty) error {
 	return h.db.ShowIdeas(req)
 }
+
+func (h *Idea) AddRatings(ctx context.Context, req *idea.AddRatingsRequest, rsp *idea.AddRatingsResponse) (err error) {
+	if rsp.Idea, err = h.db.AddRatings(req.IdeaId, req.Ratings); err != nil {
+		return
+	}
+
+	return
+}
