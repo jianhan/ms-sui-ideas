@@ -144,7 +144,8 @@ message DeleteIdeasResponse {
 }
 
 message AddRatingsRequest {
-    repeated Rating ratings = 1;
+    string idea_id = 1;
+    repeated Rating ratings = 2;
 }
 
 message AddRatingsResponse {
