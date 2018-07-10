@@ -4,6 +4,7 @@ option go_package="idea";
 
 import "google/protobuf/timestamp.proto";
 import "github.com/jianhan/ms-sui-ideas/proto/occupation/occupation.proto";
+import "github.com/jianhan/ms-sui-ideas/proto/tag/tag.proto";
 import "google/protobuf/empty.proto";
 
 // AppType defines application type
@@ -47,10 +48,12 @@ message Idea {
     repeated Story stories = 11;
     // @inject_tag: bson:"occupations"
     repeated Occupation occupations = 12;
+    // @inject_tag: bson:"tags"
+    repeated Tag tags = 13;
     // @inject_tag: bson:"created_at"
-    google.protobuf.Timestamp created_at = 13;
+    google.protobuf.Timestamp created_at = 14;
     // @inject_tag: bson:"updated_at"
-    google.protobuf.Timestamp updated_at = 14;
+    google.protobuf.Timestamp updated_at = 15;
 }
 
 message Story {

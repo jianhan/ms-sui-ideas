@@ -99,33 +99,33 @@ func (Pirority) EnumDescriptor() ([]byte, []int) { return fileDescriptor0, []int
 
 type Idea struct {
 	// @inject_tag: bson:"_id" valid:"required~ID is required, uuidv4~ID must be a valid UUIDv4" conform:"trim"
-	ID string `protobuf:"bytes,1,opt,name=ID" json:"ID,omitempty" bson:"_id" valid:"required~ID is required, uuidv4~ID must be a valid UUIDv4" conform:"trim"`
+	ID string `protobuf:"bytes,1,opt,name=ID" json:"ID,omitempty" bson:"_id" valid:"required~ID is required, uuidv4~ID must be a valid UUIDv4" conform:"trim" bson:"_id" valid:"required~ID is required, uuidv4~ID must be a valid UUIDv4" conform:"trim"`
 	// @inject_tag: bson:"name" valid:"required~Name is required" conform:"trim"
-	Name string `protobuf:"bytes,2,opt,name=name" json:"name,omitempty" bson:"name" valid:"required~Name is required" conform:"trim"`
+	Name string `protobuf:"bytes,2,opt,name=name" json:"name,omitempty" bson:"name" valid:"required~Name is required" conform:"trim" bson:"name" valid:"required~Name is required" conform:"trim"`
 	// @inject_tag: bson:"slug" valid:"required~Slug is required" conform:"trim"
-	Slug string `protobuf:"bytes,3,opt,name=slug" json:"slug,omitempty" bson:"slug" valid:"required~Slug is required" conform:"trim"`
+	Slug string `protobuf:"bytes,3,opt,name=slug" json:"slug,omitempty" bson:"slug" valid:"required~Slug is required" conform:"trim" bson:"slug" valid:"required~Slug is required" conform:"trim"`
 	// @inject_tag: bson:"description" valid:"required~Description is required" conform:"trim"
-	Description string `protobuf:"bytes,4,opt,name=description" json:"description,omitempty" bson:"description" valid:"required~Description is required" conform:"trim"`
+	Description string `protobuf:"bytes,4,opt,name=description" json:"description,omitempty" bson:"description" valid:"required~Description is required" conform:"trim" bson:"description" valid:"required~Description is required" conform:"trim"`
 	// @inject_tag: bson:"hidden"
-	Hidden bool `protobuf:"varint,5,opt,name=hidden" json:"hidden,omitempty" bson:"hidden"`
+	Hidden bool `protobuf:"varint,5,opt,name=hidden" json:"hidden,omitempty" bson:"hidden" bson:"hidden"`
 	// @inject_tag: bson:"app_types" valid:"required~App types is required"
-	AppTypes []AppType `protobuf:"varint,6,rep,packed,name=app_types,json=appTypes,enum=go.micro.srv.ideas.AppType" json:"app_types,omitempty" bson:"app_types" valid:"required~App types is required"`
+	AppTypes []AppType `protobuf:"varint,6,rep,packed,name=app_types,json=appTypes,enum=go.micro.srv.ideas.AppType" json:"app_types,omitempty" bson:"app_types" valid:"required~App types is required" bson:"app_types" valid:"required~App types is required"`
 	// @inject_tag: bson:"min_age" valid:"range(8|99)~Invalid min age range, must between 8 and 99"
-	MinAge uint64 `protobuf:"varint,7,opt,name=min_age,json=minAge" json:"min_age,omitempty" bson:"min_age" valid:"range(8|99)~Invalid min age range, must between 8 and 99"`
+	MinAge uint64 `protobuf:"varint,7,opt,name=min_age,json=minAge" json:"min_age,omitempty" bson:"min_age" valid:"range(8|99)~Invalid min age range, must between 8 and 99" bson:"min_age" valid:"range(8|99)~Invalid min age range, must between 8 and 99"`
 	// @inject_tag: bson:"max_age" valid:"range(8|99)~Invalid max age range, must between 8 and 99"
-	MaxAge uint64 `protobuf:"varint,8,opt,name=max_age,json=maxAge" json:"max_age,omitempty" bson:"max_age" valid:"range(8|99)~Invalid max age range, must between 8 and 99"`
+	MaxAge uint64 `protobuf:"varint,8,opt,name=max_age,json=maxAge" json:"max_age,omitempty" bson:"max_age" valid:"range(8|99)~Invalid max age range, must between 8 and 99" bson:"max_age" valid:"range(8|99)~Invalid max age range, must between 8 and 99"`
 	// @inject_tag: bson:"ratings"
-	Ratings []*Rating `protobuf:"bytes,9,rep,name=ratings" json:"ratings,omitempty" bson:"ratings"`
+	Ratings []*Rating `protobuf:"bytes,9,rep,name=ratings" json:"ratings,omitempty" bson:"ratings" bson:"ratings"`
 	// @inject_tag: bson:"rating"
-	Rating float32 `protobuf:"fixed32,10,opt,name=rating" json:"rating,omitempty" bson:"rating"`
+	Rating float32 `protobuf:"fixed32,10,opt,name=rating" json:"rating,omitempty" bson:"rating" bson:"rating"`
 	// @inject_tag: bson:"stories"
-	Stories []*Story `protobuf:"bytes,11,rep,name=stories" json:"stories,omitempty" bson:"stories"`
+	Stories []*Story `protobuf:"bytes,11,rep,name=stories" json:"stories,omitempty" bson:"stories" bson:"stories"`
 	// @inject_tag: bson:"occupations"
-	Occupations []*go_micro_srv_ideas.Occupation `protobuf:"bytes,12,rep,name=occupations" json:"occupations,omitempty" bson:"occupations"`
+	Occupations []*go_micro_srv_ideas.Occupation `protobuf:"bytes,12,rep,name=occupations" json:"occupations,omitempty" bson:"occupations" bson:"occupations"`
 	// @inject_tag: bson:"created_at"
-	CreatedAt *google_protobuf.Timestamp `protobuf:"bytes,13,opt,name=created_at,json=createdAt" json:"created_at,omitempty" bson:"created_at"`
+	CreatedAt *google_protobuf.Timestamp `protobuf:"bytes,13,opt,name=created_at,json=createdAt" json:"created_at,omitempty" bson:"created_at" bson:"created_at"`
 	// @inject_tag: bson:"updated_at"
-	UpdatedAt *google_protobuf.Timestamp `protobuf:"bytes,14,opt,name=updated_at,json=updatedAt" json:"updated_at,omitempty" bson:"updated_at"`
+	UpdatedAt *google_protobuf.Timestamp `protobuf:"bytes,14,opt,name=updated_at,json=updatedAt" json:"updated_at,omitempty" bson:"updated_at" bson:"updated_at"`
 }
 
 func (m *Idea) Reset()                    { *m = Idea{} }
@@ -233,23 +233,23 @@ func (m *Idea) GetUpdatedAt() *google_protobuf.Timestamp {
 
 type Story struct {
 	// @inject_tag: bson:"title" valid:"required~Title is required" conform:"trim"
-	Title string `protobuf:"bytes,1,opt,name=title" json:"title,omitempty" bson:"title" valid:"required~Title is required" conform:"trim"`
+	Title string `protobuf:"bytes,1,opt,name=title" json:"title,omitempty" bson:"title" valid:"required~Title is required" conform:"trim" bson:"title" valid:"required~Title is required" conform:"trim"`
 	// @inject_tag: bson:"pirority" valid:"required~Pirority is required"
-	Pirority Pirority `protobuf:"varint,2,opt,name=pirority,enum=go.micro.srv.ideas.Pirority" json:"pirority,omitempty" bson:"pirority" valid:"required~Pirority is required"`
+	Pirority Pirority `protobuf:"varint,2,opt,name=pirority,enum=go.micro.srv.ideas.Pirority" json:"pirority,omitempty" bson:"pirority" valid:"required~Pirority is required" bson:"pirority" valid:"required~Pirority is required"`
 	// @inject_tag: bson:"role" valid:"required~Who is required" conform:"trim"
-	Who string `protobuf:"bytes,3,opt,name=who" json:"who,omitempty" bson:"role" valid:"required~Who is required" conform:"trim"`
+	Who string `protobuf:"bytes,3,opt,name=who" json:"who,omitempty" bson:"role" valid:"required~Who is required" conform:"trim" bson:"role" valid:"required~Who is required" conform:"trim"`
 	// @inject_tag: bson:"action" valid:"required~What is required" conform:"trim"
-	What string `protobuf:"bytes,4,opt,name=what" json:"what,omitempty" bson:"action" valid:"required~What is required" conform:"trim"`
+	What string `protobuf:"bytes,4,opt,name=what" json:"what,omitempty" bson:"action" valid:"required~What is required" conform:"trim" bson:"action" valid:"required~What is required" conform:"trim"`
 	// @inject_tag: bson:"goal" valid:"required~Goal is required" conform:"trim"
-	Goal string `protobuf:"bytes,5,opt,name=goal" json:"goal,omitempty" bson:"goal" valid:"required~Goal is required" conform:"trim"`
+	Goal string `protobuf:"bytes,5,opt,name=goal" json:"goal,omitempty" bson:"goal" valid:"required~Goal is required" conform:"trim" bson:"goal" valid:"required~Goal is required" conform:"trim"`
 	// @inject_tag: bson:"order"
-	Order uint64 `protobuf:"varint,6,opt,name=order" json:"order,omitempty" bson:"order"`
+	Order uint64 `protobuf:"varint,6,opt,name=order" json:"order,omitempty" bson:"order" bson:"order"`
 	// @inject_tag: bson:"hidden"
-	Hidden bool `protobuf:"varint,7,opt,name=hidden" json:"hidden,omitempty" bson:"hidden"`
+	Hidden bool `protobuf:"varint,7,opt,name=hidden" json:"hidden,omitempty" bson:"hidden" bson:"hidden"`
 	// @inject_tag: bson:"created_at"
-	CreatedAt *google_protobuf.Timestamp `protobuf:"bytes,8,opt,name=created_at,json=createdAt" json:"created_at,omitempty" bson:"created_at"`
+	CreatedAt *google_protobuf.Timestamp `protobuf:"bytes,8,opt,name=created_at,json=createdAt" json:"created_at,omitempty" bson:"created_at" bson:"created_at"`
 	// @inject_tag: bson:"updated_at"
-	UpdatedAt *google_protobuf.Timestamp `protobuf:"bytes,9,opt,name=updated_at,json=updatedAt" json:"updated_at,omitempty" bson:"updated_at"`
+	UpdatedAt *google_protobuf.Timestamp `protobuf:"bytes,9,opt,name=updated_at,json=updatedAt" json:"updated_at,omitempty" bson:"updated_at" bson:"updated_at"`
 }
 
 func (m *Story) Reset()                    { *m = Story{} }
@@ -322,13 +322,13 @@ func (m *Story) GetUpdatedAt() *google_protobuf.Timestamp {
 
 type Rating struct {
 	// @inject_tag: bson:"user_id" valid:"required~User ID is required, uuidv4~User ID must be a valid UUIDv4" conform:"trim"
-	UserId string `protobuf:"bytes,1,opt,name=user_id,json=userId" json:"user_id,omitempty" bson:"user_id" valid:"required~User ID is required, uuidv4~User ID must be a valid UUIDv4" conform:"trim"`
+	UserId string `protobuf:"bytes,1,opt,name=user_id,json=userId" json:"user_id,omitempty" bson:"user_id" valid:"required~User ID is required, uuidv4~User ID must be a valid UUIDv4" conform:"trim" bson:"user_id" valid:"required~User ID is required, uuidv4~User ID must be a valid UUIDv4" conform:"trim"`
 	// @inject_tag: bson:"value" valid:"required~Rating value is required"
-	Value float32 `protobuf:"fixed32,2,opt,name=value" json:"value,omitempty" bson:"value" valid:"required~Rating value is required"`
+	Value float32 `protobuf:"fixed32,2,opt,name=value" json:"value,omitempty" bson:"value" valid:"required~Rating value is required" bson:"value" valid:"required~Rating value is required"`
 	// @inject_tag: bson:"created_at"
-	CreatedAt *google_protobuf.Timestamp `protobuf:"bytes,3,opt,name=created_at,json=createdAt" json:"created_at,omitempty" bson:"created_at"`
+	CreatedAt *google_protobuf.Timestamp `protobuf:"bytes,3,opt,name=created_at,json=createdAt" json:"created_at,omitempty" bson:"created_at" bson:"created_at"`
 	// @inject_tag: bson:"updated_at"
-	UpdatedAt *google_protobuf.Timestamp `protobuf:"bytes,4,opt,name=updated_at,json=updatedAt" json:"updated_at,omitempty" bson:"updated_at"`
+	UpdatedAt *google_protobuf.Timestamp `protobuf:"bytes,4,opt,name=updated_at,json=updatedAt" json:"updated_at,omitempty" bson:"updated_at" bson:"updated_at"`
 }
 
 func (m *Rating) Reset()                    { *m = Rating{} }
