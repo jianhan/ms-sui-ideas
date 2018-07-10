@@ -1,0 +1,50 @@
+syntax = "proto3";
+package go.micro.srv.ideas;
+option go_package="idea";
+
+import "google/protobuf/empty.proto";
+
+message Tag {
+    // @inject_tag: bson:"_id" valid:"required~ID is required, uuidv4~ID must be a valid UUIDv4" conform:"trim"
+    string ID = 1;
+    // @inject_tag: bson:"name" valid:"required~Name is required" conform:"trim"
+    string name = 2;
+    // @inject_tag: bson:"slug" valid:"required~Slug is required" conform:"trim"
+    string slug = 3;
+    // @inject_tag: bson:"hidden"
+    bool hidden = 4;
+}
+
+message TagFilter {
+    repeated string ids = 1;
+    repeated string names = 2;
+    bool hidden = 3;
+}
+
+// Service declares all RPC calls for tags related functions.
+service IdeaService {
+    rpc ListTags(TagFilter) returns (ListTagsResponse) {}
+    rpc CreateTags(UpsertTagsRequest) returns (UpsertTagsResponse) {}
+    rpc UpdateTags(UpsertTagsRequest) returns (UpsertTagsResponse) {}
+    rpc DeleteTags(TagFilter) returns (DeleteTagsResponse) {}
+    rpc HideTags(TagFilter) returns (google.protobuf.Empty) {}
+    rpc ShowTags(TagFilter) returns (google.protobuf.Empty) {}
+}
+
+message ListTagsResponse {
+    repeated Tag tags = 1;
+}
+
+message UpsertTagsRequest {
+    repeated Tag tags = 1;
+}
+
+message UpsertTagsResponse {
+    int64 matched = 1;
+    int64 modified = 2;
+    repeated Tag tags = 3;
+}
+
+message DeleteTagsResponse {
+    int64 deleted = 1;
+}
